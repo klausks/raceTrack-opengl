@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{144377e4-e915-4645-a9cb-2170b78cf5ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Core">
+      <UniqueIdentifier>{a385c29a-17a6-49db-8114-65941d6252aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\file_writers">
+      <UniqueIdentifier>{61ee9874-64c2-4b83-bbfe-9c4fd9eed51e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\file_writers">
+      <UniqueIdentifier>{7fee9940-4b49-4a3a-9938-dd64eb717f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\builders">
+      <UniqueIdentifier>{615dc700-edab-426f-a6ea-935a4187f5d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\models">
+      <UniqueIdentifier>{fa19e32e-56c4-4f77-b53d-c2e34ecb2aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\system">
+      <UniqueIdentifier>{12dd1b56-77c4-4c6e-9676-e02f9bed6985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{39f92711-9cb6-4ea3-b80a-dd353c8cf1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\models">
+      <UniqueIdentifier>{70fce4be-27e8-4dc7-ac76-c045eb945b8e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjWriter.cpp">
+      <Filter>Source Files\file_writers</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="Bspline.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ObjWriter.h">
+      <Filter>Header Files\file_writers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneWriter.h">
+      <Filter>Header Files\file_writers</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveWriter.h">
+      <Filter>Header Files\file_writers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuilder.h">
+      <Filter>Header Files\builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Bspline.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Core\core.frag">
+      <Filter>Shaders\Core</Filter>
+    </None>
+    <None Include="Shaders\Core\core.vert">
+      <Filter>Shaders\Core</Filter>
+    </None>
+  </ItemGroup>
+</Project>
