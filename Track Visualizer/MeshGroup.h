@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Material.h"
 #include "Texture.h"
+#include "Shader.h"
 
 using namespace std;
 
@@ -31,7 +32,6 @@ public:
 	string name;
 	GLuint vao = NULL;
 	GLuint textureId = NULL;
-	int shaderLocation = 0;
 	vector<GLuint> vbos;
 	vector<Face*> faces;
 	Material* material;
@@ -57,7 +57,8 @@ public:
 		return this->faces.at(index);
 	}
 
-	string getMaterialId() {
+	string getMaterialId()
+	{
 		if (this->material != NULL) {
 			return this->material->id;
 		}
@@ -72,7 +73,8 @@ public:
 		faces.push_back(face);
 	}
 
-	void addVBO(GLuint vbo) {
+	void addVBO(GLuint vbo)
+	{
 		this->vbos.push_back(vbo);
 	}
 

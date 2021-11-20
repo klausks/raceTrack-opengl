@@ -4,6 +4,7 @@ void Bspline::insertControlPoint(glm::vec3 point)
 {
 	controlPoints.push_back(point);
 	updateCurve();
+    updateInAndExCurves();
 }
 
 void Bspline::updateCurve()
@@ -22,8 +23,48 @@ void Bspline::updateCurve()
             curvePoints.push_back(curvePoint);
         }
     }
-    updateInAndExCurves();
+}
 
+void Bspline::updateInAndExCurves()
+{
+    internalCurvePoints.clear();
+    externalCurvePoints.clear();
+    int size = curvePoints.size();
+
+    for (int i = 0; i < size; i++) {
+
+        float Ax = curvePoints[i].x;
+        float Ay = curvePoints[i].y;
+
+        float Bx = curvePoints[(i + 1) % size].x;
+        float By = curvePoints[(i + 1) % size].y;
+
+        float w = Bx - Ax;
+        float h = By - Ay;
+        float a = atan(h / w);
+
+        float internalAngle, externalAngle;
+
+        if (w < 0) {
+            internalAngle = a - M_PI / 2;
+            externalAngle = a + M_PI / 2;
+        }
+        else {
+            internalAngle = a + M_PI / 2;
+            externalAngle = a - M_PI / 2;
+        }
+
+
+        float internalCx = cos(internalAngle) * CURVE_DISTANCE + Ax;
+        float internalCy = sin(internalAngle) * CURVE_DISTANCE + Ay;
+
+        internalCurvePoints.push_back(glm::vec3(internalCx, internalCy, 0.0f));
+
+        float externalCx = cos(externalAngle) * CURVE_DISTANCE + Ax;
+        float externalCy = sin(externalAngle) * CURVE_DISTANCE + Ay;
+
+        externalCurvePoints.push_back(glm::vec3(externalCx, externalCy, 0.0f));
+    }
 }
 
 glm::vec3 Bspline::calculateCurvePoint(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4, float t)
@@ -61,47 +102,4 @@ glm::vec3 Bspline::calculateCurvePoint(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3,
             );
 
     return glm::vec3(x, y, z);
-}
-
-
-void Bspline::updateInAndExCurves()
-{
-    internalCurvePoints.clear();
-    externalCurvePoints.clear();
-    int size = curvePoints.size();
-
-    for (int i = 0; i < size; i++) {
-
-        float Ax = curvePoints[i].x;
-        float Ay = curvePoints[i].y;
-
-        float Bx = curvePoints[(i + 1) % size].y;
-        float By = curvePoints[(i + 1) % size].y;
-
-        float w = Bx - Ax;
-        float h = By - Ay;
-        float a = atan(h / w);
-
-        float internalAngle, externalAngle;
-
-        if (w < 0) {
-            internalAngle = a + M_PI / 2;
-            externalAngle = a - M_PI / 2;
-        }
-        else {
-            internalAngle = a - M_PI / 2;
-            externalAngle = a + M_PI / 2;
-        }
-
-
-        float internalCx = cos(internalAngle) * CURVE_DISTANCE + Ax;
-        float internalCy = sin(internalAngle) * CURVE_DISTANCE + Ay;
-
-        internalCurvePoints.push_back(glm::vec3(internalCx, internalCy, 0.0f));
-
-        float externalCx = cos(externalAngle) * CURVE_DISTANCE + Ax;
-        float externalCy = sin(externalAngle) * CURVE_DISTANCE + Ay;
-
-        externalCurvePoints.push_back(glm::vec3(externalCx, externalCy, 0.0f));
-    }
 }

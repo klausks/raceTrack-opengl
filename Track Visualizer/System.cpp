@@ -83,9 +83,9 @@ int System::OpenGLSetup()
 int System::SystemSetup()
 {
 	coreShader = new Shader("Shaders/Core/core.vert", "Shaders/Core/core.frag");
-	coreShader->LoadTexture("objs/trout/trout.bmp", "texture1", "troutTexture");
-	coreShader->LoadTexture("objs/LibertStatue/Liberty-GreenBronze-1.png", "texture1", "statueTexture");
-	coreShader->LoadTexture("objs/mesa/mesa01.bmp", "texture1", "mesaTexture");
+	//coreShader->LoadTexture("objs/trout/trout.bmp", "texture1", "troutTexture");
+	//coreShader->LoadTexture("objs/LibertStatue/Liberty-GreenBronze-1.png", "texture1", "statueTexture");
+	//coreShader->LoadTexture("objs/mesa/mesa01.bmp", "texture1", "mesaTexture");
 	coreShader->Use();
 
 	glfwSetCursorPosCallback(window, mouse_callback);
@@ -96,9 +96,9 @@ int System::SystemSetup()
 
 void System::Run()
 {
-
-	Mesh* troutMesh = objReader->read("objs/trout/", "trout.obj");
-	coreShader->UseTexture("troutTexture");
+	/*
+	Mesh* troutMesh = objReader->loadToMesh("objs/trout/", "trout.obj");
+	// coreShader->UseTexture("troutTexture");
 	Obj3D* trout = new Obj3D(troutMesh, true);
 	trout->initialize();
 	//trout->setTexture(coreShader->textures["troutTexture"].GetTextureId());
@@ -106,7 +106,8 @@ void System::Run()
 	trout->setPosition(glm::vec3(0.5f, 0.5f, -2.0f));
 	this->objects.push_back(trout);
 
-	Mesh* statueMesh = objReader->read("objs/LibertStatue/", "LibertStatue.obj");
+
+	Mesh* statueMesh = objReader->loadToMesh("objs/LibertStatue/", "LibertStatue.obj");
 	Obj3D* statue = new Obj3D(statueMesh, true);
 	statue->initialize();
 	//statue->setTexture(coreShader->textures["statueTexture"].GetTextureId());
@@ -114,7 +115,7 @@ void System::Run()
 	statue->setPosition(glm::vec3(0.5f, 0.5f, 5.0f));
 	this->objects.push_back(statue);
 
-	Mesh* mesaMesh = objReader->read("objs/mesa/", "mesa01.obj");
+	Mesh* mesaMesh = objReader->loadToMesh("objs/mesa/", "mesa01.obj");
 	Obj3D* mesa = new Obj3D(mesaMesh, true);
 	mesa->initialize();
 	//mesa->setTexture(coreShader->textures["mesaTexture"].GetTextureId());
@@ -122,25 +123,34 @@ void System::Run()
 	statue->setPosition(glm::vec3(-1.0f, 0.5f, 3.0f));
 
 	this->objects.push_back(mesa);
+	*/
 
-
-	glm::mat4 projection(1.0f);
-	glm::mat4 view = glm::mat4(1.0f);
+	Mesh* trackMesh = objReader->loadToMesh("objs/track/", "track.obj");
+	Obj3D* track = new Obj3D(trackMesh, true);
+	track->initialize();
+	track->setShader(coreShader);
+	this->objects.push_back(track);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPos(window, (float)WIDTH / 2, (float)HEIGHT / 2);
 
+	int viewLoc = glGetUniformLocation(coreShader->program, "view");
+	int projectionLoc = glGetUniformLocation(coreShader->program, "projection");
+	glm::mat4 view = glm::mat4();
+	glm::mat4 projection = glm::mat4();
+
 
 	while (!glfwWindowShouldClose(window)) {
 
-		float currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
+		float currentTime = glfwGetTime();
+		long currentTimeInMs = currentTime * 1000;
+		float elapsedTime = currentTime - previousFrameTime;
+		long elapsedTimeInMs = elapsedTime * 1000;
+
+		previousFrameTimeInMs = currentTimeInMs;
+		previousFrameTime = currentTime;
 
 		glfwPollEvents();
-
-		projection = glm::perspective(glm::radians(cam->zoom), aspectRatio, 0.1f, 100.0f);
-		view = cam->getViewMatrix();
 
 #pragma region Input Handling
 
@@ -148,27 +158,26 @@ void System::Run()
 			glfwSetWindowShouldClose(window, GLFW_TRUE);
 		}
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			cam->processKeyboard(FORWARD, deltaTime);
+			cam->processKeyboard(FORWARD, elapsedTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			cam->processKeyboard(LEFT, deltaTime);
+			cam->processKeyboard(LEFT, elapsedTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			cam->processKeyboard(BACKWARD, deltaTime);
+			cam->processKeyboard(BACKWARD, elapsedTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			cam->processKeyboard(RIGHT, deltaTime);
+			cam->processKeyboard(RIGHT, elapsedTime);
 		}
 
+		view = cam->getViewMatrix();
+		projection = glm::perspective(glm::radians(cam->zoom), aspectRatio, 0.1f, 100.0f);
 #pragma endregion
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		int viewLoc = glGetUniformLocation(coreShader->program, "view");
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
-		int projectionLoc = glGetUniformLocation(coreShader->program, "projection");
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		for (Obj3D* obj : this->objects) {

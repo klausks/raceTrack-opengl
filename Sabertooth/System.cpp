@@ -141,7 +141,8 @@ void System::process_keyboard_input()
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		// to_obj();
+		objWriter = new ObjWriter(bSpline, "../Track Visualizer/objs/track/");
+		objWriter->write();
 	}
 }
 

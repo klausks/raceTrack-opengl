@@ -26,11 +26,13 @@
 #include "AssetManager.h"
 #include "Time.h"
 #include "Bspline.h"
+#include "ObjWriter.h"
 
 // VBOs and VAOs
 static Bspline* bSpline = new Bspline();
 static GLuint controlPointsVAO, controlPointsVBO;
 static GLuint bSplineVAO, bSplineVBO, bSplineInVAO, bSplineInVBO, bSplineExVAO, bSplineExVBO;
+static ObjWriter* objWriter;
 
 // parameters
 static const float WIDTH = 1280, HEIGHT = 840;

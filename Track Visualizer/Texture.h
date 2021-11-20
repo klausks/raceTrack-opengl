@@ -16,6 +16,7 @@ private:
 public:
 	Texture();
 	Texture(const char* path, const char* textureUniformName, GLuint shaderProgram, GLint textureNum);
+	Texture(const char* path);
 	~Texture();
 
 	GLuint GetTextureId() { return textureID; }

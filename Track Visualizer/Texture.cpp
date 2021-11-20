@@ -1,7 +1,5 @@
 #include "Texture.h"
 
-
-
 Texture::Texture() : textureID(NULL), textureLocation(NULL), textureNum(NULL)
 {
 }
@@ -28,6 +26,28 @@ Texture::Texture(const char* path, const char* textureUniformName, GLuint shader
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glUniform1i(textureLocation, this->textureNum);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+Texture::Texture(const char* filePath)
+{
+	this->textureNum = 0;
+
+	glGenTextures(1, &textureID);
+
+	int width, height;
+	unsigned char* image;
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	AssetManager::LoadImage(filePath);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

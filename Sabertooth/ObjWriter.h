@@ -19,7 +19,7 @@ class ObjWriter
             this->MATERIAL_FILE = path + "track.mtl";
         }
 
-        void write(string filePath, string objFileName);
+        void write();
 
 	private:
         Bspline* bSpline;
@@ -30,6 +30,9 @@ class ObjWriter
         string MATERIAL_NAME = "trackMtl";
         string GROUP_NAME = "track";
         string TEXTURE_FILE = "track.jpg";
-        float GLOBAL_SCALE = 0.05f;
-        float HEIGHT_SCALE = 0.05f;
+        float GLOBAL_SCALE = 0.01f;
+        float HEIGHT_SCALE = 0.01f;
+        void writeCurveFile(string filePath);
+        void writeMtlFile(string filePath);
+        void writeObjFile(string filePath);
 };

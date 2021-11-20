@@ -1,11 +1,10 @@
 #include "ObjReader.h"
 
 
-Mesh* ObjReader::read(string folderPath, string fileName) {
+Mesh* ObjReader::loadToMesh(string folderPath, string fileName) {
 	Mesh* mesh = new Mesh();
 	MeshGroup* currentGroup = nullptr;
 	string mtlFileName;
-	std::map<string, Material> materials;
 	ifstream arq(folderPath + fileName);
 	while (!arq.eof()) {
 		string line;
@@ -90,6 +89,7 @@ Mesh* ObjReader::read(string folderPath, string fileName) {
 	}
 	arq.close();
 	readMtlFile(folderPath, mtlFileName, mesh);
+	loadTextures(folderPath, mesh);
 
 	return mesh;
 }
@@ -161,6 +161,23 @@ void ObjReader::readMtlFile(string folderPath, string fileName, Mesh* mesh)
 				string mapKd;
 				lineStream >> mapKd;
 				currentMaterial->mapKd = mapKd;
+			}
+		}
+	}
+}
+
+void ObjReader::loadTextures(string texturesLocationFolder, Mesh* targetMesh)
+{
+	for (MeshGroup* group : targetMesh->groups)
+	{
+		Material* material = group->material;
+		if (material != NULL)
+		{
+			string diffuseTextureMap = material->mapKd;
+			if (diffuseTextureMap != "")
+			{
+				string textureFilePath = texturesLocationFolder + material->mapKd;
+				group->texture = new Texture(textureFilePath.c_str());
 			}
 		}
 	}

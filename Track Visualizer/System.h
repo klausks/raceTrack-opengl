@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <chrono>
 #include <math.h>
+#include <thread>
 
 // External Libs
 #include <GL\glew.h>
@@ -29,12 +30,15 @@
 #include "Obj3D.h"
 #include "Projectile.h"
 
-static Camera* cam = new Camera(glm::vec3(0.0f, 0.0f, 10.0f));
+static Camera* cam = new Camera(glm::vec3(0.0f, 5.0f, 10.0f));
 static const GLint WIDTH = 1280, HEIGHT = 840;
+static const int FPS = 60;
 static float deltaTime = 0.0f;
 static float lastFrame = 0.0f;
 static float lastMouseXPos = WIDTH / 2;
 static float lastMouseYPos = HEIGHT / 2;
+static float previousFrameTime = 0.0f;
+static long previousFrameTimeInMs = 0.0f;
 
 class System
 {

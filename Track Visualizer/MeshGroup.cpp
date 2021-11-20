@@ -1,16 +1,24 @@
 #include "MeshGroup.h"
 
-void MeshGroup::bindVAO() {
+void MeshGroup::bindVAO()
+{
     if (this->vao == NULL) {
         glGenVertexArrays(1, &vao);
     }
     glBindVertexArray(vao);
 }
 
-void MeshGroup::bindTexture() {
-    if (this->textureId == NULL) {
-        return;
+void MeshGroup::bindTexture()
+{
+    if (this->texture != NULL)
+    {
+        GLuint textureId = this->texture->GetTextureId();
+        //glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureId);
     }
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureId);
+}
+
+void MeshGroup::setTexture(string filename)
+{
+
 }
