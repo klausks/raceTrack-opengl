@@ -129,6 +129,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ObjWriter.cpp" />
     <ClCompile Include="Bspline.cpp" />
+    <ClCompile Include="SceneWriter.cpp" />
     <ClCompile Include="System.cpp" />
   </ItemGroup>
   <ItemGroup>

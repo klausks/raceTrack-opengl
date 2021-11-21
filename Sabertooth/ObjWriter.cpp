@@ -4,21 +4,8 @@
 
 
 void ObjWriter::write() {
-    writeCurveFile(CURVE_FILE);
     writeMtlFile(MATERIAL_FILE);
     writeObjFile(OBJ_FILE);
-}
-
-void ObjWriter::writeCurveFile(string filePath)
-{
-    ofstream curveFile(filePath);
-    vector<glm::vec3> curvePoints = this->bSpline->curvePoints;
-
-    for (glm::vec3 curvePoint : curvePoints)
-    {
-        curveFile << curvePoint.x * GLOBAL_SCALE << " " << curvePoint.y * HEIGHT_SCALE << " " << curvePoint.z * GLOBAL_SCALE << endl;
-    }
-    curveFile.close();
 }
 
 void ObjWriter::writeMtlFile(string filePath)

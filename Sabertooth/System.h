@@ -27,15 +27,20 @@
 #include "Time.h"
 #include "Bspline.h"
 #include "ObjWriter.h"
+#include "SceneWriter.h"
 
 // VBOs and VAOs
 static Bspline* bSpline = new Bspline();
 static GLuint controlPointsVAO, controlPointsVBO;
 static GLuint bSplineVAO, bSplineVBO, bSplineInVAO, bSplineInVBO, bSplineExVAO, bSplineExVBO;
 static ObjWriter* objWriter;
+static SceneWriter* sceneWriter;
 
 // parameters
 static const float WIDTH = 1280, HEIGHT = 840;
+static const string TARGET_TRACK_FOLDER = "../Track Visualizer/objs/track/";
+static const string TARGET_SCENE_FOLDER = "../Track Visualizer/scene/";
+static const string CAR_OBJ_FOLDER = "../Track Visualizer/objs/cars/";
 static const int FPS = 60;
 static float lastMouseXPos;
 static float lastMouseYPos;

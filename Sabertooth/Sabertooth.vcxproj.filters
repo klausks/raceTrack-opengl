@@ -57,6 +57,9 @@
     <ClCompile Include="Bspline.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
+    <ClCompile Include="SceneWriter.cpp">
+      <Filter>Source Files\file_writers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ObjWriter.h">
