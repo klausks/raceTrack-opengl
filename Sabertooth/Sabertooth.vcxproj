@@ -134,10 +134,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="CurveWriter.h" />
     <ClInclude Include="Bspline.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="MeshBuilder.h" />
     <ClInclude Include="SceneWriter.h" />
     <ClInclude Include="ObjWriter.h" />
     <ClInclude Include="Shader.h" />

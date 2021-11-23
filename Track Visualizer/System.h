@@ -69,7 +69,7 @@ public:
 	int OpenGLSetup();
 	int SystemSetup();
 
-	void loadScene(string configFileName);
+	void loadScene(string sceneFilePath);
 	void addObj3D(Obj3D* obj);
 
 

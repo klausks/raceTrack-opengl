@@ -189,7 +189,7 @@ void System::Run()
 	}
 }
 
-void System::loadScene(string configFileName)
+void System::loadScene(string sceneFilePath)
 {
 
 }
