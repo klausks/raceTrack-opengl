@@ -189,9 +189,46 @@ void System::Run()
 	}
 }
 
-void System::loadScene(string sceneFilePath)
+void System::loadScene(string sceneFilePath, Shader* targetShader)
 {
+	ifstream arq(sceneFilePath);
+	while (!arq.eof()) {
+		string line;
+		getline(arq, line);
+		stringstream lineStream;
+		lineStream << line;
+		string temp;
+		lineStream >> temp;
+		if (temp == "obj") {
+			string objType;
+			string objFilePath;
+			lineStream >> objType >> objFilePath;
+			size_t fileFolderDelimiterPos = objFilePath.find_last_of("/");
+			string objFolderPath = objFilePath.substr(0, fileFolderDelimiterPos);
+			string objFileName = objFilePath.substr(fileFolderDelimiterPos + 1);
 
+			if (objType == "Car")
+			{
+				Mesh* carMesh = objReader->loadToMesh(objFolderPath, objFileName);
+				Obj3D* car = new Obj3D(carMesh, true);
+				car->initialize();
+				car->setShader(targetShader);
+				this->car = car;
+			}
+			else if (objType == "Track")
+			{
+				Mesh* trackMesh = objReader->loadToMesh(objFolderPath, objFileName);
+				Obj3D* track = new Obj3D(trackMesh, true);
+				track->initialize();
+				track->setShader(targetShader);
+				this->track = track;
+			}
+		}
+		else if (temp == "curve") {
+			// TO-DO
+		}
+	}
+	arq.close();
 }
 
 void System::Finish()

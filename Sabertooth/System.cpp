@@ -143,7 +143,7 @@ void System::process_keyboard_input()
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		objWriter = new ObjWriter(bSpline, TARGET_TRACK_FOLDER);
 		objWriter->write();
-		sceneWriter = new SceneWriter(objWriter, TARGET_SCENE_FOLDER, CAR_OBJ_FOLDER + "HN 48 Flying Car/HN 48 Flying Car.obj");
+		sceneWriter = new SceneWriter(objWriter, TARGET_SCENE_FOLDER + "scene.txt", CAR_OBJ_FOLDER + "HN 48 Flying Car/HN 48 Flying Car.obj");
 		sceneWriter->write();
 	}
 }

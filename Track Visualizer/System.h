@@ -9,6 +9,7 @@
 #include <chrono>
 #include <math.h>
 #include <thread>
+#include <cstddef>
 
 // External Libs
 #include <GL\glew.h>
@@ -51,6 +52,8 @@ private:
 	int screenWidth, screenHeight;
 	ObjReader* objReader;
 	vector<Obj3D*> objects;
+	Obj3D* car;
+	Obj3D* track;
 	Projectile* projectile;
 
 public:
@@ -69,7 +72,7 @@ public:
 	int OpenGLSetup();
 	int SystemSetup();
 
-	void loadScene(string sceneFilePath);
+	void loadScene(string sceneFilePath, Shader* targetShader);
 	void addObj3D(Obj3D* obj);
 
 
