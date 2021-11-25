@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Track Generator", "Sabertooth\Sabertooth.vcxproj", "{EF584987-9C37-48F1-91F9-B4DB96AB1EBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Track Generator", "track_generator\Track Generator.vcxproj", "{EF584987-9C37-48F1-91F9-B4DB96AB1EBF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Track Visualizer", "track_visualizer\Track Visualizer.vcxproj", "{609E38F9-A4AE-47E7-A825-5F3B3859203E}"
 EndProject

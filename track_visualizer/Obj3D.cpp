@@ -123,6 +123,8 @@ void Obj3D::setScale(glm::vec3 scaleFactors)
 
 void Obj3D::draw()
 {
+	GLint transformLoc = glGetUniformLocation(this->shader->program, "model");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 	for (MeshGroup* group : this->mesh->groups) {
 		group->bindTexture();
 		glUniform1i(glGetUniformLocation(shader->program, "texture1"), 0);
@@ -135,8 +137,7 @@ void Obj3D::draw()
 
 void Obj3D::update()
 {
-	GLint transformLoc = glGetUniformLocation(this->shader->program, "model");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+	
 }
 
 bool Obj3D::detectProjectileCollision(glm::vec3 projectileCenterPos, float projectileRadius)

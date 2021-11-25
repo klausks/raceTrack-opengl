@@ -38,7 +38,7 @@ static const float CAR_SPEED = 10.0f;
 static const string SCENE_FILE_PATH = "scene/scene.txt";
 
 
-static Camera* cam = new Camera(glm::vec3(0.0f, 10.0f, 10.0f));
+static Camera* cam = new Camera(glm::vec3(0.0f, 0.0f, 10.0f));
 static float deltaTime = 0.0f;
 static float lastFrame = 0.0f;
 static float lastMouseXPos = WIDTH / 2;
