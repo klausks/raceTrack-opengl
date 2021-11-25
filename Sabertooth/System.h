@@ -38,9 +38,10 @@ static SceneWriter* sceneWriter;
 
 // parameters
 static const float WIDTH = 1280, HEIGHT = 840;
-static const string TARGET_TRACK_FOLDER = "../Track Visualizer/objs/track/";
-static const string TARGET_SCENE_FOLDER = "../Track Visualizer/scene/";
-static const string CAR_OBJ_FOLDER = "../Track Visualizer/objs/cars/";
+static const string TARGET_TRACK_FOLDER = "../track_visualizer/objs/track/";
+static const string TARGET_SCENE_FOLDER = "../track_visualizer/scene/";
+static const string CAR_OBJ_FOLDER = "../track_visualizer/objs/cars/slot_car_blue/";
+static const string CAR_OBJ_FILE = "slot_car_blue_diffuse.obj";
 static const int FPS = 60;
 static float lastMouseXPos;
 static float lastMouseYPos;

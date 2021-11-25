@@ -123,13 +123,15 @@ void System::Run()
 	statue->setPosition(glm::vec3(-1.0f, 0.5f, 3.0f));
 
 	this->objects.push_back(mesa);
-	*/
 
 	Mesh* trackMesh = objReader->loadToMesh("objs/track/", "track.obj");
 	Obj3D* track = new Obj3D(trackMesh, true);
 	track->initialize();
 	track->setShader(coreShader);
 	this->objects.push_back(track);
+	*/
+
+	loadScene(SCENE_FILE_PATH, coreShader);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPos(window, (float)WIDTH / 2, (float)HEIGHT / 2);
@@ -174,16 +176,22 @@ void System::Run()
 		projection = glm::perspective(glm::radians(cam->zoom), aspectRatio, 0.1f, 100.0f);
 #pragma endregion
 
-		glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
+		/*
 		for (Obj3D* obj : this->objects) {
 			obj->update();
 			obj->draw();
 		}
+		*/
+		this->car->update();
+		this->track->update();
+		this->car->draw();
+		this->track->draw();
 
 		glfwSwapBuffers(window);
 	}
@@ -203,8 +211,8 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 			string objType;
 			string objFilePath;
 			lineStream >> objType >> objFilePath;
-			size_t fileFolderDelimiterPos = objFilePath.find_last_of("/");
-			string objFolderPath = objFilePath.substr(0, fileFolderDelimiterPos);
+			size_t fileFolderDelimiterPos = objFilePath.find_last_of("/\\");
+			string objFolderPath = objFilePath.substr(0, fileFolderDelimiterPos + 1);
 			string objFileName = objFilePath.substr(fileFolderDelimiterPos + 1);
 
 			if (objType == "Car")
@@ -212,6 +220,7 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 				Mesh* carMesh = objReader->loadToMesh(objFolderPath, objFileName);
 				Obj3D* car = new Obj3D(carMesh, true);
 				car->initialize();
+				car->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 				car->setShader(targetShader);
 				this->car = car;
 			}
@@ -225,10 +234,29 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 			}
 		}
 		else if (temp == "curve") {
-			// TO-DO
+			string curveFilePath;
+			lineStream >> curveFilePath;
+			vector<glm::vec3> carTrajectory = loadCarTrajectory(curveFilePath);
+			this->carAnimation = new CarAnimation(this->car, carTrajectory, CAR_SPEED);
 		}
 	}
 	arq.close();
+}
+
+vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)
+{
+	vector<glm::vec3> carTrajectory;
+	ifstream curveFile(curveFilePath);
+	while (!curveFile.eof()) {
+		string line;
+		getline(curveFile, line);
+		stringstream lineStream;
+		lineStream << line;
+		float x, y, z;
+		lineStream >> x >> y >> z;
+		carTrajectory.push_back(glm::vec3(x, y, z));
+	}
+	return carTrajectory;
 }
 
 void System::Finish()

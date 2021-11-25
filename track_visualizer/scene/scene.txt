@@ -1,0 +1,3 @@
+obj Car ../track_visualizer/objs/cars/slot_car_blue/slot_car_blue_diffuse.obj
+obj Track ../track_visualizer/objs/track/track.obj
+curve ../track_visualizer/scene/curve.txt

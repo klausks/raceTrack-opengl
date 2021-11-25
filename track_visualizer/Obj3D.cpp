@@ -105,23 +105,20 @@ void Obj3D::passMeshDataToBuffers()
 	}
 }
 
-void Obj3D::setRotation(float angle, glm::vec3 axis, bool reset)
+void Obj3D::setRotation(float angle, glm::vec3 axis)
 {
-	if (reset) transform = glm::mat4(1);
 	transform = glm::rotate(transform, angle, axis);
 }
 
-void Obj3D::setTranslation(glm::vec3 displacements, bool reset)
+void Obj3D::setTranslation(glm::vec3 displacements)
 {
-	if (reset) transform = glm::mat4(1);
 	transform = glm::translate(transform, displacements);
 }
 
-void Obj3D::setScale(glm::vec3 scaleFactors, bool reset)
+void Obj3D::setScale(glm::vec3 scaleFactors)
 {
-	if (reset) transform = glm::mat4(1);
-	transform = glm::scale(transform, scaleFactors);
 	scale = scaleFactors;
+	transform = glm::scale(transform, scale);
 }
 
 void Obj3D::draw()

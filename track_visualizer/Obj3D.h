@@ -33,9 +33,9 @@ class Obj3D
 
 
 		//Para controle direto da matriz de transformações
-		void setRotation(float angle, glm::vec3 axis, bool reset = true);
-		void setTranslation(glm::vec3 displacements, bool reset = true);
-		void setScale(glm::vec3 scaleFactors, bool reset = true);
+		void setRotation(float angle, glm::vec3 axis);
+		void setTranslation(glm::vec3 displacements);
+		void setScale(glm::vec3 scaleFactors);
 
 		void draw();
 		void update();

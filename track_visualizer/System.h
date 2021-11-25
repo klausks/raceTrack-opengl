@@ -30,10 +30,15 @@
 #include "Mesh.h"
 #include "Obj3D.h"
 #include "Projectile.h"
+#include "CarAnimation.h"
 
-static Camera* cam = new Camera(glm::vec3(0.0f, 5.0f, 10.0f));
 static const GLint WIDTH = 1280, HEIGHT = 840;
 static const int FPS = 60;
+static const float CAR_SPEED = 10.0f;
+static const string SCENE_FILE_PATH = "scene/scene.txt";
+
+
+static Camera* cam = new Camera(glm::vec3(0.0f, 10.0f, 10.0f));
 static float deltaTime = 0.0f;
 static float lastFrame = 0.0f;
 static float lastMouseXPos = WIDTH / 2;
@@ -55,6 +60,7 @@ private:
 	Obj3D* car;
 	Obj3D* track;
 	Projectile* projectile;
+	CarAnimation* carAnimation;
 
 public:
 	GLFWwindow* window;
@@ -73,6 +79,7 @@ public:
 	int SystemSetup();
 
 	void loadScene(string sceneFilePath, Shader* targetShader);
+	vector<glm::vec3> loadCarTrajectory(string curveFilePath);
 	void addObj3D(Obj3D* obj);
 
 

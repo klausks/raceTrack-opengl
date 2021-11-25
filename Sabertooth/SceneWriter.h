@@ -11,17 +11,17 @@ using namespace std;
 class SceneWriter
 {
 public:
-    SceneWriter(ObjWriter* objWriter, string targetSceneFolder, string carObjFilePath);
+    SceneWriter(ObjWriter* objWriter, string targetSceneFolder, string objFilePath);
     void write();
 
 private:
     void writeCurveFile(string filePath);
-    string targetSceneFolder;
+    string sceneFile;
     string curveFile;
     string carObjFilePath;
     string trackObjFile;
     ObjWriter* objWriter;
 
-    float GLOBAL_SCALE = 0.01f;
-    float HEIGHT_SCALE = 0.01f;
+    float GLOBAL_SCALE = 0.1f;
+    float HEIGHT_SCALE = 0.1f;
 };

@@ -145,6 +145,7 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Face.h" />
+    <ClInclude Include="CarAnimation.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshGroup.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="ObjReader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="CarAnimation.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>

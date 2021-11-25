@@ -3,7 +3,7 @@
 SceneWriter::SceneWriter(ObjWriter* objWriter, string targetSceneFolder, string carObjFilePath)
 {
     this->objWriter = objWriter;
-    this->targetSceneFolder = targetSceneFolder;
+    this->sceneFile = targetSceneFolder + "scene.txt";
     this->curveFile = targetSceneFolder + "curve.txt";
     this->trackObjFile = objWriter->OBJ_FILE;
     this->carObjFilePath = carObjFilePath;
@@ -11,7 +11,7 @@ SceneWriter::SceneWriter(ObjWriter* objWriter, string targetSceneFolder, string 
 
 void SceneWriter::write()
 {
-    ofstream sceneFile(targetSceneFolder);
+    ofstream sceneFile(sceneFile);
     sceneFile << "obj Car " << carObjFilePath << endl;
     sceneFile << "obj Track " << trackObjFile << endl;
     sceneFile << "curve " << curveFile << endl;
