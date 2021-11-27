@@ -14,6 +14,9 @@ public:
 	CarAnimation(Obj3D* car, vector<glm::vec3> trajectory, float speed);
 
 	void move();
+	void resetTrajectoryIndex();
+	glm::vec3 getCurrentPoint();
+	glm::vec3 getNextPoint();
 	// getDirection
 	// setDirection
 	// setRotation
@@ -24,6 +27,8 @@ public:
 
 private:
 	vector<glm::vec3> trajectory;
+	int trajectoryIndex;
+	int trajectoryLen;
 	float speed;
 	Obj3D* car;
 	glm::vec3 direction;

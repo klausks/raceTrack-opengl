@@ -188,8 +188,7 @@ void System::Run()
 			obj->draw();
 		}
 		*/
-		this->car->update();
-		this->track->update();
+		carAnimation->move();
 		this->car->draw();
 		this->track->draw();
 
