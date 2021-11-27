@@ -10,7 +10,7 @@ using namespace std;
 
 class Bspline {
 private:
-	const GLfloat CURVE_RESOLUTION = 0.03f;
+	const GLfloat CURVE_RESOLUTION = 0.003f;
 	const GLfloat CURVE_DISTANCE = 15.0f;
 
 	void updateCurve();

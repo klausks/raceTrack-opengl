@@ -30,8 +30,8 @@ class ObjWriter
         void write();
 
 	private:
-        float GLOBAL_SCALE = 0.01f;
-        float HEIGHT_SCALE = 0.01f;
+        float GLOBAL_SCALE = 0.05f;
+        float HEIGHT_SCALE = 0.05f;
         void writeMtlFile(string filePath);
         void writeObjFile(string filePath);
 };

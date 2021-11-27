@@ -22,6 +22,6 @@ private:
     string trackObjFile;
     ObjWriter* objWriter;
 
-    float GLOBAL_SCALE = 0.3f;
-    float HEIGHT_SCALE = 0.3f;
+    float GLOBAL_SCALE = 0.05f;;
+    float HEIGHT_SCALE = 0.05f;
 };

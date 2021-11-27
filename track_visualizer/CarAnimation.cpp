@@ -5,13 +5,14 @@ CarAnimation::CarAnimation(Obj3D* car, vector<glm::vec3> trajectory, float speed
 	this->trajectory = trajectory;
 	this->speed = speed;
 	this->car = car;
+	this->car->setTranslation(trajectory[0]);
 	this->trajectoryIndex = 0;
 	this->trajectoryLen = trajectory.size();
 }
 
 void CarAnimation::move()
 {
-	glm::vec3 displacement = getCurrentPoint() - getNextPoint();
+	glm::vec3 displacement = getNextPoint() - getCurrentPoint();
 	glm::vec3 direction = glm::normalize(displacement);
 	car->setTranslation(displacement);
 	trajectoryIndex++;

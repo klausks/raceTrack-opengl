@@ -189,6 +189,8 @@ void System::Run()
 		}
 		*/
 		carAnimation->move();
+		//car->setRotation(glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//car->setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		this->car->draw();
 		this->track->draw();
 
@@ -219,9 +221,7 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 				Mesh* carMesh = objReader->loadToMesh(objFolderPath, objFileName);
 				Obj3D* car = new Obj3D(carMesh, true);
 				car->initialize();
-				car->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-				car->setRotation(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-				car->setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				//car->setScale(glm::vec3(0.2f, 0.2f, 0.2f));
 				car->setShader(targetShader);
 				this->car = car;
 			}
