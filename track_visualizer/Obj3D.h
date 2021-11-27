@@ -28,7 +28,7 @@ class Obj3D
 		//Para setar os atributos 
 		void setShader(Shader* shader) { this->shader = shader; shader->Use(); }
 		void setPosition(glm::vec3 pos) { this->pos = pos; }
-		void setDimension(glm::vec3 scale) { this->scale = scale; }
+		//void setDimension(glm::vec3 scale) { this->scale = scale; }
 		void setAngle(float angle) { this->angle = angle; }
 
 
@@ -40,9 +40,12 @@ class Obj3D
 		void draw();
 		void update();
 
-		glm::vec3 pos, scale, p0, p1, centerPos;
+		glm::vec3 pos, p0, p1, centerPos;
 		float angle;
 		glm::mat4 transform;
+		glm::mat4 rotation;
+		glm::mat4 translation;
+		glm::mat4 scale;
 		Mesh* mesh;
 		Shader* shader;
 		int numOfVertices;

@@ -17,6 +17,7 @@ public:
 	void resetTrajectoryIndex();
 	glm::vec3 getCurrentPoint();
 	glm::vec3 getNextPoint();
+	void setRotation(glm::vec3 direction);
 	// getDirection
 	// setDirection
 	// setRotation
@@ -32,4 +33,5 @@ private:
 	float speed;
 	Obj3D* car;
 	glm::vec3 direction;
+
 };

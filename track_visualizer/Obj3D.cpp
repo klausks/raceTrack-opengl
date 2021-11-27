@@ -9,8 +9,11 @@ Obj3D::Obj3D(Mesh* mesh, bool isStatic)
 void Obj3D::initialize()
 {
 	transform = glm::mat4(1);
+	scale = glm::mat4(1);
+	rotation = glm::mat4(1);
+	translation = glm::mat4(1);
 	pos = glm::vec3(0.0f, 0.0f, 0.0f);
-	scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	// scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	angle = 0.0f;
 	setBoundingSphere();
 	passMeshDataToBuffers();
@@ -105,6 +108,7 @@ void Obj3D::passMeshDataToBuffers()
 	}
 }
 
+/*
 void Obj3D::setRotation(float angle, glm::vec3 axis)
 {
 	transform = glm::rotate(transform, angle, axis);
@@ -119,6 +123,22 @@ void Obj3D::setScale(glm::vec3 scaleFactors)
 {
 	scale = scaleFactors;
 	transform = glm::scale(transform, scale);
+}
+*/
+
+void Obj3D::setRotation(float angle, glm::vec3 axis)
+{
+	rotation = glm::rotate(rotation, angle, axis);
+}
+
+void Obj3D::setTranslation(glm::vec3 displacements)
+{
+	translation = glm::translate(translation, displacements);
+}
+
+void Obj3D::setScale(glm::vec3 scaleFactors)
+{
+	scale = glm::scale(scale, scaleFactors);
 }
 
 void Obj3D::draw()
@@ -137,7 +157,7 @@ void Obj3D::draw()
 
 void Obj3D::update()
 {
-	
+	transform = translation * rotation * scale;
 }
 
 bool Obj3D::detectProjectileCollision(glm::vec3 projectileCenterPos, float projectileRadius)

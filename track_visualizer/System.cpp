@@ -140,6 +140,8 @@ void System::Run()
 	int projectionLoc = glGetUniformLocation(coreShader->program, "projection");
 	glm::mat4 view = glm::mat4();
 	glm::mat4 projection = glm::mat4();
+	car->setRotation(glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+
 
 
 	while (!glfwWindowShouldClose(window)) {
@@ -189,8 +191,9 @@ void System::Run()
 		}
 		*/
 		carAnimation->move();
-		//car->setRotation(glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
 		//car->setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		this->car->update();
+		this->track->update();
 		this->car->draw();
 		this->track->draw();
 
