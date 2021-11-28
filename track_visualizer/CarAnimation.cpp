@@ -21,7 +21,7 @@ void CarAnimation::move()
 
 glm::vec3 CarAnimation::getCurrentPoint()
 {
-	if (trajectoryIndex == trajectory.size())
+	if (trajectoryIndex > trajectoryLen - 1)
 	{
 		resetTrajectoryIndex();
 	}
@@ -30,7 +30,7 @@ glm::vec3 CarAnimation::getCurrentPoint()
 }
 glm::vec3 CarAnimation::getNextPoint()
 {
-	return trajectory[(trajectoryIndex + 1) % trajectoryLen];
+	return trajectory[(trajectoryIndex + 1) %  trajectoryLen];
 }
 
 void CarAnimation::resetTrajectoryIndex()

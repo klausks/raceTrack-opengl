@@ -254,6 +254,7 @@ vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)
 	while (!curveFile.eof()) {
 		string line;
 		getline(curveFile, line);
+		if (line == "") { break; }
 		stringstream lineStream;
 		lineStream << line;
 		float x, y, z;
