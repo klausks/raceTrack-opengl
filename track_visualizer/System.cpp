@@ -140,7 +140,7 @@ void System::Run()
 	int projectionLoc = glGetUniformLocation(coreShader->program, "projection");
 	glm::mat4 view = glm::mat4();
 	glm::mat4 projection = glm::mat4();
-	car->setRotation(glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+	car->setRotation(glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 
 
@@ -245,6 +245,7 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 		}
 	}
 	arq.close();
+	cam = new Camera(carAnimation->getCurrentPoint() + glm::vec3(0.0f, 10.0f, 10.0f));
 }
 
 vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)

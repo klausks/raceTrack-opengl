@@ -47,18 +47,26 @@ void CarAnimation::setRotation(glm::vec3 direction)
 	}
 	else
 	{
+		/*
 		float senY = direction.y - this->direction.y;
 		if (senY != 0)
 		{
 			float angleY = glm::asin(senY);
 			car->setRotation(angleY, glm::vec3(1.0f, 0.0f, 0.0f));
 		}
-		float senX = this->direction.x - direction.x;
-		if (senX != 0)
-		{
-			float angleX = glm::asin(senX);
-			car->setRotation(angleX, glm::vec3(0.0f, 0.0f, 1.0f));
+		*/
+		float zDiff = direction.z - this->direction.z;
+		float xDiff = direction.x - this->direction.x;
+		if (zDiff > 0) {
+			float angleZ = glm::asin(zDiff);
+			car->setRotation(angleZ, glm::vec3(0.0f, 0.0f, 1.0f));
 		}
+		else
+		{
+			float angleZ = glm::asin(xDiff);
+			car->setRotation(angleZ, glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+
 	}
 	this->direction = direction;
 }

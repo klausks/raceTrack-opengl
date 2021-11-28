@@ -73,12 +73,13 @@ void Obj3D::passMeshDataToBuffers()
 				textureCoords.push_back(textureCoord.x);
 				textureCoords.push_back(textureCoord.y);
 			}
-			/*
-			glm::vec3 normal = mesh->normals[meshGroupFace->normalIndices[k]];
-			normals.push_back(normal.x);
-			normals.push_back(normal.y);
-			normals.push_back(normal.z);
-			*/
+			int numOfNormals = face->getNumOfNormals();
+			for (int k = 0; k < numOfNormals; k++) {
+				glm::vec3 normal = mesh->normals[face->normalIndices[k]];
+				normals.push_back(normal.x);
+				normals.push_back(normal.y);
+				normals.push_back(normal.z);
+			}
 		}
 		group->numOfVertices = verticesCount;
 		GLuint positionVBO = 0, texVBO = 0, normalVBO = 0, VAO = 0;
@@ -96,12 +97,16 @@ void Obj3D::passMeshDataToBuffers()
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		glEnableVertexAttribArray(0);
 
-
-
 		// Texture attribute
 		glBindBuffer(GL_ARRAY_BUFFER, texVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureCoords.size(), textureCoords.data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glEnableVertexAttribArray(1);
+
+		// Normal attribute
+		glBindBuffer(GL_ARRAY_BUFFER, normalVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normals.size(), normals.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		glEnableVertexAttribArray(1);
 
 		glBindVertexArray(0); // Unbind VAO
