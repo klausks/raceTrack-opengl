@@ -5,10 +5,8 @@ void System::mouse_callback(GLFWwindow* windows, double xPos, double yPos)
 {
 	float xOffset = xPos - lastMouseXPos;
 	float yOffset = lastMouseYPos - yPos; // reversed since y-coordinates go from bottom to top
-
 	lastMouseXPos = xPos;
 	lastMouseYPos = yPos;
-
 	cam->processMouseMovement(xOffset, yOffset);
 }
 
@@ -27,7 +25,6 @@ System::~System()
 
 int System::GLFWInit()
 {
-
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -37,7 +34,6 @@ int System::GLFWInit()
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	window = glfwCreateWindow(WIDTH, HEIGHT, "3DShooter", nullptr, nullptr);
-
 	glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 	aspectRatio = (float)screenWidth / (float)screenHeight;
 	fov = 45.0f;
@@ -50,7 +46,6 @@ int System::GLFWInit()
 	}
 
 	glfwMakeContextCurrent(window);
-
 	glewExperimental = GL_TRUE;
 
 	if (glewInit() != GLEW_OK) {
@@ -59,10 +54,7 @@ int System::GLFWInit()
 	}
 
 	glViewport(0, 0, screenWidth, screenHeight);
-
-
 	return EXIT_SUCCESS;
-
 }
 
 int System::OpenGLSetup()
@@ -70,9 +62,7 @@ int System::OpenGLSetup()
 
 	glEnable(GL_BLEND);	// Enables blending ( glBlendFunc )
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glEnable(GL_DEPTH_TEST);
-
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -109,13 +99,16 @@ void System::Run()
 	int lightColorLoc = glGetUniformLocation(coreShader->program, "lightColor");
 	glUniform3fv(lightColorLoc, 1, glm::value_ptr(lightColor));
 	
-	// const glm::vec3 lightPos(30.0f, 10.0f, 15.0f);
 	int lightPosLoc = glGetUniformLocation(coreShader->program, "lightPos");
 	int lightAmbientLoc = glGetUniformLocation(coreShader->program, "light.ambient");
 	int lightDiffuseLoc = glGetUniformLocation(coreShader->program, "light.diffuse");
 	int lightSpecularLoc = glGetUniformLocation(coreShader->program, "light.specular");
 
-	// Shader uniform locations related to material properties
+	glUniform3f(lightAmbientLoc, 0.3f, 0.3f, 0.3f);
+	glUniform3f(lightDiffuseLoc, 1.0f, 1.0f, 1.0f);
+	glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
+
+	/*
 	GLint mtlAmbientLoc = glGetUniformLocation(coreShader->program, "material.ambient");
 	int mtlDiffuseLoc = glGetUniformLocation(coreShader->program, "material.diffuse");
 	int mtlSpecularLoc = glGetUniformLocation(coreShader->program, "material.specular");
@@ -125,10 +118,7 @@ void System::Run()
 	glUniform3f(mtlDiffuseLoc, 0.588f, 0.588f, 0.588f);
 	glUniform3f(mtlSpecularLoc, 0.5f, 0.5f, 0.5f);
 	glUniform1f(mtlShininessLoc, 10.0f);
-
-	glUniform3f(lightAmbientLoc, 1.2f, 1.2f, 1.2f);
-	glUniform3f(lightDiffuseLoc, 0.1f, 0.1f, 0.1f);
-	glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
+	*/
 
 	glm::mat4 view = glm::mat4();
 	glm::mat4 projection = glm::mat4();
@@ -176,13 +166,14 @@ void System::Run()
 		glUniform3fv(viewPosLoc, 1, glm::value_ptr(cam->position));
 		glUniform3fv(lightPosLoc, 1, glm::value_ptr(cam->position));
 
-
 		carAnimation->move();
+
 		this->car->update();
 		this->track->update();
-
-		this->car->draw();
-		this->track->draw();
+		drawObj(car);
+		drawObj(track);
+		// this->car->draw();
+		// this->track->draw();
 
 		glfwSwapBuffers(window);
 	}
@@ -252,20 +243,50 @@ vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)
 	return carTrajectory;
 }
 
-/*
-void setLighitingUniforms(Obj3D* obj, Shader* shader)
+
+void System::setObjLighitingUniforms(Obj3D* obj, Shader* shader)
 {
+	// Shader uniform locations related to material properties
+	GLint mtlAmbientLoc = glGetUniformLocation(shader->program, "material.ambient");
+	int mtlDiffuseLoc = glGetUniformLocation(shader->program, "material.diffuse");
+	int mtlSpecularLoc = glGetUniformLocation(shader->program, "material.specular");
+	int mtlShininessLoc = glGetUniformLocation(shader->program, "material.shininess");
+
 	glUniform3f(mtlAmbientLoc, 0.588f, 0.588f, 0.588f);
 	glUniform3f(mtlDiffuseLoc, 0.588f, 0.588f, 0.588f);
 	glUniform3f(mtlSpecularLoc, 0.5f, 0.5f, 0.5f);
 	glUniform1f(mtlShininessLoc, 10.0f);
 }
-*/
+
+void System::drawObj(Obj3D* obj)
+{
+	GLint transformLoc = glGetUniformLocation(obj->shader->program, "model");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(obj->transform));
+
+	GLint mtlAmbientLoc = glGetUniformLocation(obj->shader->program, "material.ambient");
+	GLint mtlDiffuseLoc = glGetUniformLocation(obj->shader->program, "material.diffuse");
+	GLint mtlSpecularLoc = glGetUniformLocation(obj->shader->program, "material.specular");
+	GLint mtlShininessLoc = glGetUniformLocation(obj->shader->program, "material.shininess");
+
+	for (MeshGroup* group : obj->mesh->groups) {
+		// Set lighting uniforms based on group material
+		glUniform3fv(mtlAmbientLoc, 1, glm::value_ptr(group->material->ka));
+		glUniform3fv(mtlDiffuseLoc, 1, glm::value_ptr(group->material->kd));
+		glUniform3fv(mtlSpecularLoc, 1, glm::value_ptr(group->material->ks));
+		glUniform1f(mtlShininessLoc, group->material->ns);
+
+		group->bindTexture();
+		glUniform1i(glGetUniformLocation(obj->shader->program, "texture1"), 0);
+		glBindVertexArray(group->vao);
+		glDrawArrays(GL_TRIANGLES, 0, group->numOfVertices);
+		glBindVertexArray(0);
+	}
+}
+
 
 
 void System::Finish()
 {
 	coreShader->Delete();
-
 	glfwTerminate();
 }

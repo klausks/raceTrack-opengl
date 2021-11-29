@@ -12,10 +12,10 @@ void ObjWriter::writeMtlFile(string filePath)
 {
     ofstream mtlFile(filePath);
     mtlFile << "newmtl " << MATERIAL_NAME << endl;
-    mtlFile << "Ka 0.7 0.7 0.7" << endl;
-    mtlFile << "Kd 0.9 0.9 0.9" << endl;
-    mtlFile << "Ks 1.0 1.0 1.0" << endl;
-    mtlFile << "Ns 64.0" << endl;
+    mtlFile << "Ka 1.0 1.0 1.0" << endl;
+    mtlFile << "Kd 0.5 0.5 0.5" << endl;
+    mtlFile << "Ks 0.1 0.1 0.1" << endl;
+    mtlFile << "Ns 10.0" << endl;
     mtlFile << "map_Kd " << TEXTURE_FILE << endl;
     mtlFile.close();
 }

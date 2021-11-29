@@ -24,15 +24,11 @@ class Obj3D
 		void setP0();
 		void setP1();
 
-
-		//Para setar os atributos 
+		// Setters
 		void setShader(Shader* shader) { this->shader = shader; shader->Use(); }
 		void setPosition(glm::vec3 pos) { this->pos = pos; }
 		//void setDimension(glm::vec3 scale) { this->scale = scale; }
 		void setAngle(float angle) { this->angle = angle; }
-
-
-		//Para controle direto da matriz de transformações
 		void setRotation(float angle, glm::vec3 axis);
 		void setTranslation(glm::vec3 displacements);
 		void setScale(glm::vec3 scaleFactors);

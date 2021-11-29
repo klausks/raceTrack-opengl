@@ -42,6 +42,7 @@ public:
     // euler Angles
     float yaw;
     float pitch;
+
     // camera options
     float movementSpeed;
     float mouseSensitivity;
@@ -56,7 +57,6 @@ public:
         this->worldUp = WORLD_UP;
         this->yaw = yaw;
         this->pitch = pitch;
-
         updateCameraVectors();
     }
 

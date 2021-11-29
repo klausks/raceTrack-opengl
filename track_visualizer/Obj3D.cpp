@@ -24,7 +24,6 @@ void Obj3D::setBoundingSphere()
 	setP0();
 	setP1();
 	centerPos = glm::vec3((p1.x + p0.x) / 2, (p1.y + p0.y) / 2, (p1.z + p0.z) / 2);
-
 	float diagonal = getDist(p0, p1);
 	radius = diagonal / 2;
 }
@@ -157,7 +156,6 @@ void Obj3D::draw()
 		glDrawArrays(GL_TRIANGLES, 0, group->numOfVertices);
 		glBindVertexArray(0);
 	}
-	
 }
 
 void Obj3D::update()
