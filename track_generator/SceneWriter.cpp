@@ -26,7 +26,7 @@ void SceneWriter::writeCurveFile(string filePath)
 
     for (glm::vec3 curvePoint : curvePoints)
     {
-        curveFile << curvePoint.x * GLOBAL_SCALE << " " << curvePoint.z * HEIGHT_SCALE << " " << curvePoint.y * GLOBAL_SCALE << endl;
+        curveFile << (curvePoint.x + objWriter->xOffset) * GLOBAL_SCALE << " " << curvePoint.z * HEIGHT_SCALE << " " << (curvePoint.y + objWriter->zOffset) * GLOBAL_SCALE << endl;
     }
     curveFile.close();
 }

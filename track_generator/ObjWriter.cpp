@@ -36,7 +36,7 @@ void ObjWriter::writeObjFile(string filePath)
     vector<glm::vec3> internalCurvePoints = this->bSpline->internalCurvePoints;
 
     for (glm::vec3 internalCurvePoint : internalCurvePoints) {
-        obj << "v " << (internalCurvePoint.x * GLOBAL_SCALE) << " " << (internalCurvePoint.z * HEIGHT_SCALE) << " " << (internalCurvePoint.y *
+        obj << "v " << ((internalCurvePoint.x + xOffset) * GLOBAL_SCALE) << " " << (internalCurvePoint.z * HEIGHT_SCALE) << " " << ((internalCurvePoint.y + zOffset) *
             GLOBAL_SCALE)
             << endl;
     }
@@ -44,7 +44,7 @@ void ObjWriter::writeObjFile(string filePath)
     vector<glm::vec3> externalCurvePoints = this->bSpline->externalCurvePoints;
 
     for (glm::vec3 externalCurvePoint : externalCurvePoints) {
-        obj << "v " << (externalCurvePoint.x * GLOBAL_SCALE) << " " << (externalCurvePoint.z * HEIGHT_SCALE) << " " << (externalCurvePoint.y *
+        obj << "v " << ((externalCurvePoint.x + xOffset) * GLOBAL_SCALE) << " " << (externalCurvePoint.z * HEIGHT_SCALE) << " " << ((externalCurvePoint.y + zOffset) *
             GLOBAL_SCALE)
             << endl;
     }

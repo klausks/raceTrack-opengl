@@ -81,6 +81,7 @@ public:
 	void loadScene(string sceneFilePath, Shader* targetShader);
 	vector<glm::vec3> loadCarTrajectory(string curveFilePath);
 	void addObj3D(Obj3D* obj);
+	void setLighitingUniforms(Obj3D* obj, Shader* shader);
 
 
 	void Run();

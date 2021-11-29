@@ -14,6 +14,8 @@ class ObjWriter
 		ObjWriter(Bspline* bSpline, string path)
         {
             this->bSpline = bSpline;
+            this->xOffset = - bSpline->curvePoints[0].x;
+            this->zOffset = -bSpline->curvePoints[0].y;
             this->path = path;
             this->OBJ_FILE = path + "track.obj";
             this->MATERIAL_FILE = path + "track.mtl";
@@ -26,12 +28,15 @@ class ObjWriter
         string MATERIAL_NAME = "trackMtl";
         string GROUP_NAME = "track";
         string TEXTURE_FILE = "track.jpg";
+        float xOffset;
+        float zOffset;
 
         void write();
 
 	private:
         float GLOBAL_SCALE = 0.05f;
         float HEIGHT_SCALE = 0.05f;
+
         void writeMtlFile(string filePath);
         void writeObjFile(string filePath);
 };

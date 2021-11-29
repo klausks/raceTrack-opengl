@@ -23,7 +23,7 @@ const float SPEED = 10.0f;
 const float SENSITIVITY = 0.05f;
 const float ZOOM = 45.0f;
 const glm::vec3 POSITION = glm::vec3(0.0f, 0.0f, 3.0f);
-const glm::vec3 UP = glm::vec3(0.0f, 1.0f, 0.0f);
+const glm::vec3 UP, WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
 const glm::vec3 FRONT = glm::vec3(0.0f, 0.0f, -1.0f);
 
 
@@ -48,13 +48,12 @@ public:
     float zoom;
 
     Camera(glm::vec3 position = POSITION,
-        glm::vec3 up = UP,
         float yaw = YAW, float pitch = PITCH) : forward(FRONT),
                                                 movementSpeed(SPEED),
                                                 mouseSensitivity(SENSITIVITY),
                                                 zoom(ZOOM) {
         this->position = position;
-        this->worldUp = up;
+        this->worldUp = WORLD_UP;
         this->yaw = yaw;
         this->pitch = pitch;
 

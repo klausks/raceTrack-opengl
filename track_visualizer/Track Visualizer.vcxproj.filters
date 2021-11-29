@@ -43,6 +43,9 @@
     <Filter Include="Source Files\readers">
       <UniqueIdentifier>{92e05bc8-8265-49ed-9e85-be4a5699746a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Light">
+      <UniqueIdentifier>{24085dbf-c65f-4d71-93b5-7af75759d1c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -129,6 +132,12 @@
     </None>
     <None Include="Shaders\Core\core.vert">
       <Filter>Shaders\Core</Filter>
+    </None>
+    <None Include="Shaders\Light\light.frag">
+      <Filter>Shaders\Light</Filter>
+    </None>
+    <None Include="Shaders\Light\light.vert">
+      <Filter>Shaders\Light</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -73,9 +73,9 @@ int System::OpenGLSetup()
 
 	glEnable(GL_DEPTH_TEST);
 
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-	//glFrontFace(GL_CW);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
 
 	return EXIT_SUCCESS;
 }
@@ -83,9 +83,6 @@ int System::OpenGLSetup()
 int System::SystemSetup()
 {
 	coreShader = new Shader("Shaders/Core/core.vert", "Shaders/Core/core.frag");
-	//coreShader->LoadTexture("objs/trout/trout.bmp", "texture1", "troutTexture");
-	//coreShader->LoadTexture("objs/LibertStatue/Liberty-GreenBronze-1.png", "texture1", "statueTexture");
-	//coreShader->LoadTexture("objs/mesa/mesa01.bmp", "texture1", "mesaTexture");
 	coreShader->Use();
 
 	glfwSetCursorPosCallback(window, mouse_callback);
@@ -96,53 +93,46 @@ int System::SystemSetup()
 
 void System::Run()
 {
-	/*
-	Mesh* troutMesh = objReader->loadToMesh("objs/trout/", "trout.obj");
-	// coreShader->UseTexture("troutTexture");
-	Obj3D* trout = new Obj3D(troutMesh, true);
-	trout->initialize();
-	//trout->setTexture(coreShader->textures["troutTexture"].GetTextureId());
-	trout->setShader(coreShader);
-	trout->setPosition(glm::vec3(0.5f, 0.5f, -2.0f));
-	this->objects.push_back(trout);
-
-
-	Mesh* statueMesh = objReader->loadToMesh("objs/LibertStatue/", "LibertStatue.obj");
-	Obj3D* statue = new Obj3D(statueMesh, true);
-	statue->initialize();
-	//statue->setTexture(coreShader->textures["statueTexture"].GetTextureId());
-	statue->setShader(coreShader);
-	statue->setPosition(glm::vec3(0.5f, 0.5f, 5.0f));
-	this->objects.push_back(statue);
-
-	Mesh* mesaMesh = objReader->loadToMesh("objs/mesa/", "mesa01.obj");
-	Obj3D* mesa = new Obj3D(mesaMesh, true);
-	mesa->initialize();
-	//mesa->setTexture(coreShader->textures["mesaTexture"].GetTextureId());
-	mesa->setShader(coreShader);
-	statue->setPosition(glm::vec3(-1.0f, 0.5f, 3.0f));
-
-	this->objects.push_back(mesa);
-
-	Mesh* trackMesh = objReader->loadToMesh("objs/track/", "track.obj");
-	Obj3D* track = new Obj3D(trackMesh, true);
-	track->initialize();
-	track->setShader(coreShader);
-	this->objects.push_back(track);
-	*/
 
 	loadScene(SCENE_FILE_PATH, coreShader);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPos(window, (float)WIDTH / 2, (float)HEIGHT / 2);
 
-	int viewLoc = glGetUniformLocation(coreShader->program, "view");
+	// Shader uniform locations relted to Camera
+	int viewLoc = glGetUniformLocation(coreShader->program, "view");	
+	int viewPosLoc = glGetUniformLocation(coreShader->program, "viewPos");
 	int projectionLoc = glGetUniformLocation(coreShader->program, "projection");
+	
+	// Shader uniform locations related to light source
+	const glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+	int lightColorLoc = glGetUniformLocation(coreShader->program, "lightColor");
+	glUniform3fv(lightColorLoc, 1, glm::value_ptr(lightColor));
+	
+	// const glm::vec3 lightPos(30.0f, 10.0f, 15.0f);
+	int lightPosLoc = glGetUniformLocation(coreShader->program, "lightPos");
+	int lightAmbientLoc = glGetUniformLocation(coreShader->program, "light.ambient");
+	int lightDiffuseLoc = glGetUniformLocation(coreShader->program, "light.diffuse");
+	int lightSpecularLoc = glGetUniformLocation(coreShader->program, "light.specular");
+
+	// Shader uniform locations related to material properties
+	GLint mtlAmbientLoc = glGetUniformLocation(coreShader->program, "material.ambient");
+	int mtlDiffuseLoc = glGetUniformLocation(coreShader->program, "material.diffuse");
+	int mtlSpecularLoc = glGetUniformLocation(coreShader->program, "material.specular");
+	int mtlShininessLoc = glGetUniformLocation(coreShader->program, "material.shininess");
+
+	glUniform3f(mtlAmbientLoc, 0.588f, 0.588f, 0.588f);
+	glUniform3f(mtlDiffuseLoc, 0.588f, 0.588f, 0.588f);
+	glUniform3f(mtlSpecularLoc, 0.5f, 0.5f, 0.5f);
+	glUniform1f(mtlShininessLoc, 10.0f);
+
+	glUniform3f(lightAmbientLoc, 1.2f, 1.2f, 1.2f);
+	glUniform3f(lightDiffuseLoc, 0.1f, 0.1f, 0.1f);
+	glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
+
 	glm::mat4 view = glm::mat4();
 	glm::mat4 projection = glm::mat4();
 	car->setRotation(glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -183,17 +173,14 @@ void System::Run()
 
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniform3fv(viewPosLoc, 1, glm::value_ptr(cam->position));
+		glUniform3fv(lightPosLoc, 1, glm::value_ptr(cam->position));
 
-		/*
-		for (Obj3D* obj : this->objects) {
-			obj->update();
-			obj->draw();
-		}
-		*/
+
 		carAnimation->move();
-		//car->setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		this->car->update();
 		this->track->update();
+
 		this->car->draw();
 		this->track->draw();
 
@@ -245,7 +232,7 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 		}
 	}
 	arq.close();
-	cam = new Camera(carAnimation->getCurrentPoint() + glm::vec3(0.0f, 10.0f, 10.0f));
+	cam = new Camera(carAnimation->getCurrentPoint() + glm::vec3(0.0f, 15.0f, 15.0f), -90.0, -45.0);
 }
 
 vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)
@@ -264,6 +251,17 @@ vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)
 	}
 	return carTrajectory;
 }
+
+/*
+void setLighitingUniforms(Obj3D* obj, Shader* shader)
+{
+	glUniform3f(mtlAmbientLoc, 0.588f, 0.588f, 0.588f);
+	glUniform3f(mtlDiffuseLoc, 0.588f, 0.588f, 0.588f);
+	glUniform3f(mtlSpecularLoc, 0.5f, 0.5f, 0.5f);
+	glUniform1f(mtlShininessLoc, 10.0f);
+}
+*/
+
 
 void System::Finish()
 {
