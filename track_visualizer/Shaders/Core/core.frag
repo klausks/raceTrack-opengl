@@ -35,13 +35,19 @@ void main(){
     
     // diffuse lighting
     vec3 norm = normalize(normal);
-	vec3 lightDir = normalize(lightPos - fragmentPos);
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = lightColor * (diff * material.diffuse) * light.diffuse;
+    vec3 lightDir = lightPos - fragmentPos;
+	vec3 lightDirNormalized = normalize(lightDir);
+    float lightDist = length(lightDir);
+    float attenC1 = 0.01f;
+    float attenC2 = 0.005f;
+    float attenC3 = 0.002f;
+    float attenFactor = min( 1 / (attenC1 + attenC2 * lightDist + attenC3 * pow(lightDist, 2)), 1);
+	float diff = max(dot(norm, lightDirNormalized), 0.0);
+	vec3 diffuse = attenFactor * lightColor * (diff * material.diffuse) * light.diffuse;
 
     // specular lighting
     vec3 viewDir = normalize(viewPos - fragmentPos);
-	vec3 reflectDir = reflect(-lightDir, norm);
+	vec3 reflectDir = reflect(-lightDirNormalized, norm);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 	vec3 specular = lightColor * (spec * material.specular) * light.specular;
 		

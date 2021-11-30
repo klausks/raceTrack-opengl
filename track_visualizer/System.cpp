@@ -74,21 +74,19 @@ int System::SystemSetup()
 {
 	coreShader = new Shader("Shaders/Core/core.vert", "Shaders/Core/core.frag");
 	coreShader->Use();
+	loadScene(SCENE_FILE_PATH, coreShader);
 
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPos(window, (float)WIDTH / 2, (float)HEIGHT / 2);
 
 	return EXIT_SUCCESS;
 }
 
 void System::Run()
 {
-
-	loadScene(SCENE_FILE_PATH, coreShader);
-
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPos(window, (float)WIDTH / 2, (float)HEIGHT / 2);
-
 	// Shader uniform locations relted to Camera
 	int viewLoc = glGetUniformLocation(coreShader->program, "view");	
 	int viewPosLoc = glGetUniformLocation(coreShader->program, "viewPos");
@@ -241,21 +239,6 @@ vector<glm::vec3> System::loadCarTrajectory(string curveFilePath)
 		carTrajectory.push_back(glm::vec3(x, y, z));
 	}
 	return carTrajectory;
-}
-
-
-void System::setObjLighitingUniforms(Obj3D* obj, Shader* shader)
-{
-	// Shader uniform locations related to material properties
-	GLint mtlAmbientLoc = glGetUniformLocation(shader->program, "material.ambient");
-	int mtlDiffuseLoc = glGetUniformLocation(shader->program, "material.diffuse");
-	int mtlSpecularLoc = glGetUniformLocation(shader->program, "material.specular");
-	int mtlShininessLoc = glGetUniformLocation(shader->program, "material.shininess");
-
-	glUniform3f(mtlAmbientLoc, 0.588f, 0.588f, 0.588f);
-	glUniform3f(mtlDiffuseLoc, 0.588f, 0.588f, 0.588f);
-	glUniform3f(mtlSpecularLoc, 0.5f, 0.5f, 0.5f);
-	glUniform1f(mtlShininessLoc, 10.0f);
 }
 
 void System::drawObj(Obj3D* obj)
