@@ -24,6 +24,7 @@ public:
 
 	// vector<float> cPoints, cvPoints, inPoints, exPoints;
 	void insertControlPoint(glm::vec3 point);
+	void update();
 
 	void clear()
 	{

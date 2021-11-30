@@ -33,5 +33,7 @@ private:
 	float speed;
 	Obj3D* car;
 	glm::vec3 direction;
+	glm::vec3 up;
+	glm::vec3 right;
 
 };

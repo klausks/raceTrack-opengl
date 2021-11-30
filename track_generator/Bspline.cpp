@@ -3,7 +3,12 @@
 void Bspline::insertControlPoint(glm::vec3 point)
 {
 	controlPoints.push_back(point);
-	updateCurve();
+    update();
+}
+
+void Bspline::update()
+{
+    updateCurve();
     updateInAndExCurves();
 }
 
@@ -58,12 +63,12 @@ void Bspline::updateInAndExCurves()
         float internalCx = cos(internalAngle) * CURVE_DISTANCE + Ax;
         float internalCy = sin(internalAngle) * CURVE_DISTANCE + Ay;
 
-        internalCurvePoints.push_back(glm::vec3(internalCx, internalCy, 0.0f));
+        internalCurvePoints.push_back(glm::vec3(internalCx, internalCy, curvePoints[i].z));
 
         float externalCx = cos(externalAngle) * CURVE_DISTANCE + Ax;
         float externalCy = sin(externalAngle) * CURVE_DISTANCE + Ay;
 
-        externalCurvePoints.push_back(glm::vec3(externalCx, externalCy, 0.0f));
+        externalCurvePoints.push_back(glm::vec3(externalCx, externalCy, curvePoints[i].z));
     }
 }
 

@@ -112,7 +112,8 @@ private:
 		updateVaoAndVbo(bSplineExVAO, bSplineExVBO, bSpline->externalCurvePoints);
 		updateVaoAndVbo(bSplineInVAO, bSplineInVBO, bSpline->internalCurvePoints);
 	}
-
+	float euclideanDistance(float x1, float y1, float x2, float y2);
+	void updateHeight(float value);
 	void draw();
 	void genVBOsAndVAOs();
 

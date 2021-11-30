@@ -23,5 +23,5 @@ private:
     ObjWriter* objWriter;
 
     float GLOBAL_SCALE = 0.05f;;
-    float HEIGHT_SCALE = 0.05f;
+    float HEIGHT_SCALE = 0.10f;
 };

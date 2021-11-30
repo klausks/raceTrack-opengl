@@ -41,32 +41,21 @@ int System::GLFWInit()
 		std::cout << "Failed no init GLEW." << std::endl;
 		return EXIT_FAILURE;
 	}
-
 	glViewport(0, 0, screenWidth, screenHeight);
-	
-
 	return EXIT_SUCCESS;
-
 }
 
 int System::OpenGLSetup()
 {
-
-	//glEnable(GL_BLEND);	// Enables blending ( glBlendFunc )
+	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glEnable(GL_DEPTH_TEST);
-
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-	//glFrontFace(GL_CW);
-
 	return EXIT_SUCCESS;
 }
 
 int System::SystemSetup()
 {
-	projection = glm::ortho(0.0f, WIDTH, HEIGHT, 0.0f, -1.0f, 1.0f);
+	projection = glm::ortho(0.0f, WIDTH, HEIGHT, 0.0f, -255.0f, 255.0f);
 	coreShader = new Shader("Shaders/Core/core.vert", "Shaders/Core/core.frag");
 	coreShader->Use();
 
@@ -93,15 +82,16 @@ void System::mouse_callback(GLFWwindow* window, int button, int action, int mods
 		bSpline->insertControlPoint(glm::vec3(currentXPos, currentYpos, 0.0f));
 		updateVAOsAndVBOs();
 	}
-
 }
 
 void System::genVBOsAndVAOs()
 {
+	genVAO(controlPointsVAO);
 	genVAO(bSplineVAO);
 	genVAO(bSplineExVAO);
 	genVAO(bSplineInVAO);
 
+	genVBO(controlPointsVBO);
 	genVBO(bSplineVBO);
 	genVBO(bSplineExVBO);
 	genVBO(bSplineInVBO);
@@ -139,7 +129,14 @@ void System::process_keyboard_input()
 		bSpline->clear();
 		updateVAOsAndVBOs();
 	}
-
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		updateHeight(5.0f);
+		updateVAOsAndVBOs();
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		updateHeight(-5.0f);
+		updateVAOsAndVBOs();
+	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		objWriter = new ObjWriter(bSpline, TARGET_TRACK_FOLDER);
 		objWriter->write();
@@ -176,4 +173,43 @@ void System::Finish()
 	coreShader->Delete();
 
 	glfwTerminate();
+}
+
+float System::euclideanDistance(float x1, float y1, float x2, float y2)
+{
+	float xDist = x2 - x1;
+	float yDist = y2 - y1;
+	float distance = sqrt(pow(xDist, 2) + pow(yDist, 2));
+	return distance;
+}
+
+
+void System::updateHeight(float value)
+{
+	double xCursorPos, yCursorPos;
+	glfwGetCursorPos(window, &xCursorPos, &yCursorPos);
+
+	// Find control point closest to mouse position
+	int closestControlPointIdx = 0;
+	float smallestDist = euclideanDistance(bSpline->controlPoints[0].x, bSpline->controlPoints[0].y, xCursorPos, yCursorPos);
+	
+	for (int i = 1; i < bSpline->controlPoints.size(); i++) {
+		float currentDist = euclideanDistance(bSpline->controlPoints[i].x, bSpline->controlPoints[i].y, xCursorPos, yCursorPos);
+		if (currentDist < smallestDist) {
+			smallestDist = currentDist;
+			closestControlPointIdx = i;
+		}
+	}
+
+	float newHeight = bSpline->controlPoints[closestControlPointIdx].z + value;
+	if (newHeight > 255.0f) {
+		bSpline->controlPoints[closestControlPointIdx].z = 255.0f;
+	}
+	else if (newHeight < 0.0f) {
+		bSpline->controlPoints[closestControlPointIdx].z = 0.0f;
+	}
+	else {
+		bSpline->controlPoints[closestControlPointIdx].z = newHeight;
+	}
+	bSpline->update();
 }
