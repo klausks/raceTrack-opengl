@@ -44,7 +44,6 @@ int System::GLFWInit()
 
 		return EXIT_FAILURE;
 	}
-
 	glfwMakeContextCurrent(window);
 	glewExperimental = GL_TRUE;
 
@@ -52,21 +51,19 @@ int System::GLFWInit()
 		std::cout << "Failed no init GLEW." << std::endl;
 		return EXIT_FAILURE;
 	}
-
 	glViewport(0, 0, screenWidth, screenHeight);
 	return EXIT_SUCCESS;
 }
 
 int System::OpenGLSetup()
 {
-
 	glEnable(GL_BLEND);	// Enables blending ( glBlendFunc )
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
-
 	return EXIT_SUCCESS;
 }
 
@@ -106,21 +103,8 @@ void System::Run()
 	glUniform3f(lightDiffuseLoc, 1.0f, 1.0f, 1.0f);
 	glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
 
-	/*
-	GLint mtlAmbientLoc = glGetUniformLocation(coreShader->program, "material.ambient");
-	int mtlDiffuseLoc = glGetUniformLocation(coreShader->program, "material.diffuse");
-	int mtlSpecularLoc = glGetUniformLocation(coreShader->program, "material.specular");
-	int mtlShininessLoc = glGetUniformLocation(coreShader->program, "material.shininess");
-
-	glUniform3f(mtlAmbientLoc, 0.588f, 0.588f, 0.588f);
-	glUniform3f(mtlDiffuseLoc, 0.588f, 0.588f, 0.588f);
-	glUniform3f(mtlSpecularLoc, 0.5f, 0.5f, 0.5f);
-	glUniform1f(mtlShininessLoc, 10.0f);
-	*/
-
 	glm::mat4 view = glm::mat4();
 	glm::mat4 projection = glm::mat4();
-	car->setRotation(glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -156,7 +140,7 @@ void System::Run()
 		projection = glm::perspective(glm::radians(cam->zoom), aspectRatio, 0.1f, 100.0f);
 #pragma endregion
 
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.5f, 0.2f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
@@ -168,11 +152,10 @@ void System::Run()
 
 		this->car->update();
 		this->track->update();
+		glEnable(GL_CULL_FACE);
 		drawObj(car);
+		glDisable(GL_CULL_FACE);
 		drawObj(track);
-		// this->car->draw();
-		// this->track->draw();
-
 		glfwSwapBuffers(window);
 	}
 }

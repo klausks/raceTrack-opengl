@@ -27,13 +27,12 @@ public:
 	// getTransformation
 
 private:
+	const glm::vec3 WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
+	void updateVectors();
 	vector<glm::vec3> trajectory;
 	int trajectoryIndex;
 	int trajectoryLen;
 	float speed;
 	Obj3D* car;
-	glm::vec3 direction;
-	glm::vec3 up;
-	glm::vec3 right;
-
+	glm::vec3 worldForward, carForward, worldUp, carUp, carRight, worldRight;
 };

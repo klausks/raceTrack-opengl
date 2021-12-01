@@ -6,17 +6,24 @@ CarAnimation::CarAnimation(Obj3D* car, vector<glm::vec3> trajectory, float speed
 	this->speed = speed;
 	this->car = car;
 	this->car->setTranslation(trajectory[0]);
+	this->car->setRotation(-90.0, glm::vec3(1.0f, 0.0f, 0.0f));
+	this->car->setRotation(-90.0, glm::vec3(0.0f, 0.0f, 1.0f));
+	this->carForward = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->trajectoryIndex = 0;
 	this->trajectoryLen = trajectory.size();
-	this->direction = glm::normalize(trajectory[1] - trajectory[0]);
+	this->worldForward = glm::normalize(trajectory[1] - trajectory[0]);
+	this->worldRight = glm::vec3(0.0f, 0.0f, 1.0f);
+	this->worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	this->carUp = glm::vec3(0.0f, 0.0f, -1.0f);
+	this->carRight = glm::vec3(1.0f, 0.0f, 0.0f);
 }
 
 void CarAnimation::move()
 {
 	glm::vec3 displacement = getNextPoint() - getCurrentPoint();
-	glm::vec3 direction = glm::normalize(displacement);
+	glm::vec3 forward = glm::normalize(displacement);
 	car->setTranslation(displacement);
-	setRotation(direction);
+	setRotation(forward);
 	trajectoryIndex++;
 }
 
@@ -39,48 +46,52 @@ void CarAnimation::resetTrajectoryIndex()
 	trajectoryIndex = 0;
 }
 
-void CarAnimation::setRotation(glm::vec3 direction)
+void CarAnimation::setRotation(glm::vec3 worldForward)
 {
-	car->setRotation(1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 	/*
-	glm::vec3 axis = glm::cross(direction, this->direction);
-	float sin = glm::length(axis);
-	// float cos = glm::clamp(glm::dot(direction, this->direction), -1.0f, 1.0f);
-
-	float angle = glm::degrees(glm::asin(sin));
-	car->setRotation(angle, axis);
-	this->direction = direction;
+	glm::vec3 diff = glm::normalize(worldForward - this->worldForward);
+	float cosRightDiff = glm::dot(worldRight, diff);
+	float cosUpDiff = glm::dot(worldUp, diff);
+	if (cosRightDiff == 1.0f || cosRightDiff == -1.0f)
+	{
+		float angle = glm::clamp(acos(cosRightDiff), -1.0f, 1.0f);
+		car->setRotation(angle, this->carUp);
+		worldRight = glm::cross(worldUp, diff);
+		carRight = glm::cross(diff, carUp);
+	}
+	else if(cosUpDiff == 1.0 || cosUpDiff == -1.0)
+	{
+		float angle = acos(cosRightDiff);
+		car->setRotation(angle, this->carRight);
+		carUp = glm::cross(carRight, diff);
+	}
+	else
+	{
+	}
+	this->worldForward = worldForward;
 	*/
 
-	/*
-	float cos = glm::dot(direction, this->direction);
-	if (cos == 1)
+	float cos = glm::dot(worldForward, this->worldForward);
+	if (cos == 1.0f)
 	{
 		return;
 	}
 	else
 	{
-		
-		float senY = direction.y - this->direction.y;
+		float senY = worldForward.y - this->worldForward.y;
 		if (senY != 0)
 		{
 			float angleY = glm::asin(senY);
 			car->setRotation(angleY, glm::vec3(1.0f, 0.0f, 0.0f));
 		}
 		
-		float zDiff = direction.z - this->direction.z;
-		float xDiff = direction.x - this->direction.x;
+		float zDiff = worldForward.z - this->worldForward.z;
+		float xDiff = worldForward.x - this->worldForward.x;
 		if (zDiff > 0) {
 			float angleZ = glm::asin(zDiff);
 			car->setRotation(angleZ, glm::vec3(0.0f, 0.0f, 1.0f));
 		}
-		else
-		{
-			float angleZ = glm::asin(xDiff);
-			car->setRotation(angleZ, glm::vec3(0.0f, 0.0f, 1.0f));
-		}
 
 	}
-	this->direction = direction;
-	*/
+	this->worldForward = worldForward;
 }
