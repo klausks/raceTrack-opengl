@@ -5,7 +5,7 @@ SceneWriter::SceneWriter(ObjWriter* objWriter, string targetSceneFolder, string 
     this->objWriter = objWriter;
     this->sceneFile = targetSceneFolder + "scene.txt";
     this->curveFile = targetSceneFolder + "curve.txt";
-    this->trackObjFile = objWriter->OBJ_FILE;
+    this->trackObjFile = objWriter->objFile;
     this->carObjFilePath = carObjFilePath;
 }
 

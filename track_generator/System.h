@@ -15,7 +15,6 @@
 #include <GLFW\glfw3.h>
 #include <SOIL.h>
 
-
 // GLM Includes
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
@@ -29,23 +28,27 @@
 #include "ObjWriter.h"
 #include "SceneWriter.h"
 
-// VBOs and VAOs
 static Bspline* bSpline = new Bspline();
+
+// VBOs and VAOs
 static GLuint controlPointsVAO, controlPointsVBO;
 static GLuint bSplineVAO, bSplineVBO, bSplineInVAO, bSplineInVBO, bSplineExVAO, bSplineExVBO;
+
+// file writers
 static ObjWriter* objWriter;
 static SceneWriter* sceneWriter;
 
-// parameters
+// constant parameters
 static const float WIDTH = 1280, HEIGHT = 840;
 static const string TARGET_TRACK_FOLDER = "../track_visualizer/objs/track/";
 static const string TARGET_SCENE_FOLDER = "../track_visualizer/scene/";
 static const string CAR_OBJ_FOLDER = "../track_visualizer/objs/cars/slot_car_blue/";
 static const string CAR_OBJ_FILE = "slot_car_blue_diffuse.obj";
 static const int FPS = 60;
+
+// mouse control
 static float lastMouseXPos;
 static float lastMouseYPos;
-
 
 class System
 {
@@ -54,14 +57,11 @@ private:
 	int screenWidth, screenHeight;
 	long elapsedTimeInMs = 0.0f;
 	long previousFrameTimeInMs = 0.0f;
-
-
-	//ObjWriter* objWriter = new ObjWriter();
+	glm::mat4 projection;
 
 	// input handlers
 	void process_keyboard_input();
 	static void mouse_callback(GLFWwindow* window, int button, int action, int mods);
-
 
 	// utility functions
 	void clearScreen() {
@@ -75,7 +75,6 @@ private:
 
 	static void delVBO(GLuint& vbo) {
 		glDeleteBuffers(1, &vbo);
-
 	}
 
 	static void genVAO(GLuint& vao) {

@@ -2,17 +2,13 @@
 #define SHADER_H
 
 #include <GL\glew.h>
-
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
 #include <map>
-
 #include "Texture.h"
 #include <glm/gtc/type_ptr.hpp>
-
 
 class Shader
 {
@@ -26,7 +22,6 @@ public:
 	~Shader();
 
 	Shader(const GLchar* vertexPath, const GLchar* fragmentPath) : Shader() {
-
 		// Get vertex and fragment shaders source codes from files' paths
 		std::string vertexCode;
 		std::string fragmentCode;
@@ -89,7 +84,6 @@ public:
 			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
 
-
 		// Fragment Shader
 		fragment = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragment, 1, &fShaderCode, nullptr);
@@ -100,7 +94,6 @@ public:
 			glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
 			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
-
 
 		// Shader Program
 		this->program = glCreateProgram();
@@ -119,7 +112,6 @@ public:
 		// Delete shaders (already linked, they're no longer necessary)
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
-
 	}
 
 	void Use()
@@ -133,12 +125,6 @@ public:
 
 	void UseTexture(std::string textureName);
 	void LoadTexture(const char* path, const char* textureUniformName, std::string textureName);
-	void setBool(const std::string name, bool value) const;
-	void setInt(const std::string name, int value) const;
-	void setFloat(const std::string name, float value) const;
-	void setMatrix4fv(const std::string name, glm::mat4 matrix) const;
-	void setVec3(const std::string name, glm::vec3 vec) const;
-
 };
 
 #endif

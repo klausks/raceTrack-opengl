@@ -48,29 +48,6 @@ void CarAnimation::resetTrajectoryIndex()
 
 void CarAnimation::setRotation(glm::vec3 worldForward)
 {
-	/*
-	glm::vec3 diff = glm::normalize(worldForward - this->worldForward);
-	float cosRightDiff = glm::dot(worldRight, diff);
-	float cosUpDiff = glm::dot(worldUp, diff);
-	if (cosRightDiff == 1.0f || cosRightDiff == -1.0f)
-	{
-		float angle = glm::clamp(acos(cosRightDiff), -1.0f, 1.0f);
-		car->setRotation(angle, this->carUp);
-		worldRight = glm::cross(worldUp, diff);
-		carRight = glm::cross(diff, carUp);
-	}
-	else if(cosUpDiff == 1.0 || cosUpDiff == -1.0)
-	{
-		float angle = acos(cosRightDiff);
-		car->setRotation(angle, this->carRight);
-		carUp = glm::cross(carRight, diff);
-	}
-	else
-	{
-	}
-	this->worldForward = worldForward;
-	*/
-
 	float cos = glm::dot(worldForward, this->worldForward);
 	if (cos == 1.0f)
 	{
@@ -78,17 +55,23 @@ void CarAnimation::setRotation(glm::vec3 worldForward)
 	}
 	else
 	{
+		/*
 		float senY = worldForward.y - this->worldForward.y;
 		if (senY != 0)
 		{
 			float angleY = glm::asin(senY);
 			car->setRotation(angleY, glm::vec3(1.0f, 0.0f, 0.0f));
 		}
-		
+		*/
 		float zDiff = worldForward.z - this->worldForward.z;
 		float xDiff = worldForward.x - this->worldForward.x;
-		if (zDiff > 0) {
-			float angleZ = glm::asin(zDiff);
+		float angleZ = glm::asin(zDiff);
+		if (zDiff > 0)
+		{
+			car->setRotation(-angleZ, glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+		else
+		{
 			car->setRotation(angleZ, glm::vec3(0.0f, 0.0f, 1.0f));
 		}
 

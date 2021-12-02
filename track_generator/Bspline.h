@@ -22,15 +22,7 @@ public:
 	vector<glm::vec3> curvePoints, internalCurvePoints, externalCurvePoints;
 	vector<glm::vec3> controlPoints;
 
-	// vector<float> cPoints, cvPoints, inPoints, exPoints;
 	void insertControlPoint(glm::vec3 point);
 	void update();
-
-	void clear()
-	{
-		curvePoints.clear();
-		internalCurvePoints.clear();
-		externalCurvePoints.clear();
-		controlPoints.clear();
-	}
+	void clear();
 };

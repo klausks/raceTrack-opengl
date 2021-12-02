@@ -18,16 +18,15 @@ class Obj3D
 
 		void initialize();
 		void passMeshDataToBuffers();
-		void setBoundingSphere();
 		float getDist(glm::vec3 p0, glm::vec3 p1);
 		bool detectProjectileCollision(glm::vec3 projectileCenterPos, float projectileRadius);
-		void setP0();
-		void setP1();
 
 		// Setters
+		void setBoundingSphere();
+		void setP0();
+		void setP1();
 		void setShader(Shader* shader) { this->shader = shader; shader->Use(); }
 		void setPosition(glm::vec3 pos) { this->pos = pos; }
-		//void setDimension(glm::vec3 scale) { this->scale = scale; }
 		void setAngle(float angle) { this->angle = angle; }
 		void setRotation(float angle, glm::vec3 axis);
 		void setTranslation(glm::vec3 displacements);

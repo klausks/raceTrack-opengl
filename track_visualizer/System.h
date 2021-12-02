@@ -32,7 +32,7 @@
 #include "Projectile.h"
 #include "CarAnimation.h"
 
-static const GLint WIDTH = 1280, HEIGHT = 840;
+static const GLint WIDTH = 1600, HEIGHT = 840;
 static const int FPS = 60;
 static const float CAR_SPEED = 10.0f;
 static const string SCENE_FILE_PATH = "scene/scene.txt";
@@ -49,7 +49,6 @@ static long previousFrameTimeInMs = 0.0f;
 class System
 {
 private:
-	// Screen
 	static void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 	static void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 	void processCollision(Obj3D* obj);
@@ -63,31 +62,29 @@ private:
 	CarAnimation* carAnimation;
 
 public:
+	System();
+	~System();
+
 	GLFWwindow* window;
 	Shader* coreShader;
 	GLfloat aspectRatio;
 	GLfloat fov;
-	
-	System();
-	~System();
-
-	//void mouse_callback(GLFWwindow* windows, double xPos, double yPos);
-	//void scroll_callback(GLFWwindow* windows, double xOffset, double yOffset);
 
 	int GLFWInit();
 	int OpenGLSetup();
 	int SystemSetup();
 
+	// load files generated from Track Generator program
 	void loadScene(string sceneFilePath, Shader* targetShader);
 	vector<glm::vec3> loadCarTrajectory(string curveFilePath);
 
+	// obj handling
 	void addObj3D(Obj3D* obj);
 	void setObjLighitingUniforms(Obj3D* obj, Shader* shader);
 	void drawObj(Obj3D* obj);
 
 	void Run();
 	void Finish();
-
 };
 
 #endif

@@ -33,7 +33,7 @@ int System::GLFWInit()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
-	window = glfwCreateWindow(WIDTH, HEIGHT, "3DShooter", nullptr, nullptr);
+	window = glfwCreateWindow(WIDTH, HEIGHT, "Track", nullptr, nullptr);
 	glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 	aspectRatio = (float)screenWidth / (float)screenHeight;
 	fov = 45.0f;
@@ -183,7 +183,6 @@ void System::loadScene(string sceneFilePath, Shader* targetShader)
 				Mesh* carMesh = objReader->loadToMesh(objFolderPath, objFileName);
 				Obj3D* car = new Obj3D(carMesh, true);
 				car->initialize();
-				//car->setScale(glm::vec3(0.2f, 0.2f, 0.2f));
 				car->setShader(targetShader);
 				this->car = car;
 			}

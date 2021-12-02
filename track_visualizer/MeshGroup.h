@@ -14,7 +14,6 @@ using namespace std;
 class MeshGroup
 {
 public:
-
 	MeshGroup()
 	{
 		this->name = "";
@@ -59,7 +58,8 @@ public:
 
 	string getMaterialId()
 	{
-		if (this->material != NULL) {
+		if (this->material != NULL)
+		{
 			return this->material->id;
 		}
 		else

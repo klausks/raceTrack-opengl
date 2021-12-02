@@ -8,7 +8,6 @@
 #include "Material.h"
 #include <map>
 
-
 using namespace std;
 
 class ObjReader
@@ -23,7 +22,6 @@ class ObjReader
 		glm::vec3 buildVec3(float x, float y, float z);
 		glm::vec2 buildTextureCoord(float x, float y);
 		glm::vec3 buildNormal(float x, float y, float z);
-
 
 	private:
 		Mesh* mesh;

@@ -45,19 +45,22 @@ class Face
 		Face* split()
 		{
 			Face* newFace = new Face();
-			if (this->textureIndices.size() > 0) {
+			if (this->textureIndices.size() > 0)
+			{
 				newFace->addTextureIndex(this->textureIndices[0]);
 				newFace->addTextureIndex(this->textureIndices[2]);
 				newFace->addTextureIndex(this->textureIndices[3]);
 				this->textureIndices.erase(textureIndices.begin() + 3);
 			}
-			if (this->vertexIndices.size() > 0) {
+			if (this->vertexIndices.size() > 0)
+			{
 				newFace->addVertexIndex(this->vertexIndices[0]);
 				newFace->addVertexIndex(this->vertexIndices[2]);
 				newFace->addVertexIndex(this->vertexIndices[3]);
 				this->vertexIndices.erase(vertexIndices.begin() + 3);
 			}
-			if(this->normalIndices.size() > 0) {
+			if (this->normalIndices.size() > 0)
+			{
 				newFace->addNormalIndex(this->normalIndices[0]);
 				newFace->addNormalIndex(this->normalIndices[2]);
 				newFace->addNormalIndex(this->normalIndices[3]);

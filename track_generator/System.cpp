@@ -1,8 +1,5 @@
 #include "System.h"
 
-glm::mat4 projection;
-
-
 System::System()
 {
 }
@@ -13,7 +10,6 @@ System::~System()
 
 int System::GLFWInit()
 {
-
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -23,10 +19,9 @@ int System::GLFWInit()
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	window = glfwCreateWindow(WIDTH, HEIGHT, "Track Generator", nullptr, nullptr);
-
 	glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
-
-	if (window == nullptr) {
+	if (window == nullptr)
+	{
 		std::cout << "Failed to create GLFW Window" << std::endl;
 		glfwTerminate();
 
@@ -34,10 +29,10 @@ int System::GLFWInit()
 	}
 
 	glfwMakeContextCurrent(window);
-
 	glewExperimental = GL_TRUE;
 
-	if (glewInit() != GLEW_OK) {
+	if (glewInit() != GLEW_OK)
+	{
 		std::cout << "Failed no init GLEW." << std::endl;
 		return EXIT_FAILURE;
 	}
@@ -67,15 +62,14 @@ int System::SystemSetup()
 
 void System::mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
 		double currentXPos, currentYpos;
 		glfwGetCursorPos(window, &currentXPos, &currentYpos);
-
-		if (lastMouseXPos == currentXPos && lastMouseYPos == currentYpos) {
+		if (lastMouseXPos == currentXPos && lastMouseYPos == currentYpos)
+		{
 			return;
 		}
-
-		cout << "x: " << currentXPos << "  y: " << currentYpos << endl;
 		lastMouseXPos = currentXPos;
 		lastMouseYPos = currentYpos;
 
@@ -103,11 +97,12 @@ void System::Run()
 	int projectionLoc = glGetUniformLocation(coreShader->program, "projection");
 	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-	while (!glfwWindowShouldClose(window)) {
-
+	while (!glfwWindowShouldClose(window))
+	{
 		long currentTimeInMs = long(glfwGetTime()*1000);
 		elapsedTimeInMs = currentTimeInMs - previousFrameTimeInMs;
-		if (elapsedTimeInMs < (1 / FPS) * 1000) {
+		if (elapsedTimeInMs < (1 / FPS) * 1000)
+		{
 			std::this_thread::sleep_for(std::chrono::milliseconds((1 / FPS) * 1000 - elapsedTimeInMs));
 		}
 		previousFrameTimeInMs = currentTimeInMs;
@@ -122,22 +117,27 @@ void System::Run()
 
 void System::process_keyboard_input()
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
 		glfwSetWindowShouldClose(window, true);
 	}
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
 		bSpline->clear();
 		updateVAOsAndVBOs();
 	}
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
 		updateHeight(5.0f);
 		updateVAOsAndVBOs();
 	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
 		updateHeight(-5.0f);
 		updateVAOsAndVBOs();
 	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
 		objWriter = new ObjWriter(bSpline, TARGET_TRACK_FOLDER);
 		objWriter->write();
 		sceneWriter = new SceneWriter(objWriter, TARGET_SCENE_FOLDER, CAR_OBJ_FOLDER + CAR_OBJ_FILE);
@@ -152,18 +152,15 @@ void System::draw()
 	glPointSize(5);
 	glDrawArrays(GL_POINTS, 0, bSpline->controlPoints.size());
 
-	/* B-Spline curve
-	*/ 
+	// B-Spline curve 
 	bindVAO(bSplineVAO);
 	glDrawArrays(GL_LINE_STRIP, 0, bSpline->curvePoints.size());
 
-	/* B-Spline external curve
-	*/ 
+	// B-Spline external curve 
 	bindVAO(bSplineExVAO);
 	glDrawArrays(GL_LINE_STRIP, 0, bSpline->externalCurvePoints.size());
 
-	/* B-Spline internal curve
-	*/ 
+	// B-Spline internal curve 
 	bindVAO(bSplineInVAO);
 	glDrawArrays(GL_LINE_STRIP, 0, bSpline->internalCurvePoints.size());
 }
@@ -171,7 +168,6 @@ void System::draw()
 void System::Finish()
 {
 	coreShader->Delete();
-
 	glfwTerminate();
 }
 
@@ -183,7 +179,6 @@ float System::euclideanDistance(float x1, float y1, float x2, float y2)
 	return distance;
 }
 
-
 void System::updateHeight(float value)
 {
 	double xCursorPos, yCursorPos;
@@ -193,22 +188,27 @@ void System::updateHeight(float value)
 	int closestControlPointIdx = 0;
 	float smallestDist = euclideanDistance(bSpline->controlPoints[0].x, bSpline->controlPoints[0].y, xCursorPos, yCursorPos);
 	
-	for (int i = 1; i < bSpline->controlPoints.size(); i++) {
+	for (int i = 1; i < bSpline->controlPoints.size(); i++)
+	{
 		float currentDist = euclideanDistance(bSpline->controlPoints[i].x, bSpline->controlPoints[i].y, xCursorPos, yCursorPos);
-		if (currentDist < smallestDist) {
+		if (currentDist < smallestDist)
+		{
 			smallestDist = currentDist;
 			closestControlPointIdx = i;
 		}
 	}
 
 	float newHeight = bSpline->controlPoints[closestControlPointIdx].z + value;
-	if (newHeight > 255.0f) {
+	if (newHeight > 255.0f)
+	{
 		bSpline->controlPoints[closestControlPointIdx].z = 255.0f;
 	}
-	else if (newHeight < 0.0f) {
+	else if (newHeight < 0.0f)
+	{
 		bSpline->controlPoints[closestControlPointIdx].z = 0.0f;
 	}
-	else {
+	else
+	{
 		bSpline->controlPoints[closestControlPointIdx].z = newHeight;
 	}
 	bSpline->update();

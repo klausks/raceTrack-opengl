@@ -52,14 +52,12 @@ public:
 		this->normals.push_back(normal);
 	}
 
-
 	vector<MeshGroup*> groups;
 	vector<glm::vec3> vertices;
 	vector<glm::vec2> textureCoords;
 	vector<glm::vec3> normals;
 	float minX, minY, minZ, maxX, maxY, maxZ;
 	string name;
-
 
 private:
 };

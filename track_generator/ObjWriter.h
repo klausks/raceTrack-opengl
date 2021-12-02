@@ -11,23 +11,15 @@ using namespace std;
 class ObjWriter
 {
 	public:
-		ObjWriter(Bspline* bSpline, string path)
-        {
-            this->bSpline = bSpline;
-            this->xOffset = - bSpline->curvePoints[0].x;
-            this->zOffset = -bSpline->curvePoints[0].y;
-            this->path = path;
-            this->OBJ_FILE = path + "track.obj";
-            this->MATERIAL_FILE = path + "track.mtl";
-        }
+        ObjWriter(Bspline* bSpline, string path);
 
         Bspline* bSpline;
         string path;
-        string OBJ_FILE;
-        string MATERIAL_FILE;
-        string MATERIAL_NAME = "trackMtl";
-        string GROUP_NAME = "track";
-        string TEXTURE_FILE = "track.jpg";
+        string objFile;
+        string materialFile;
+        const string MATERIAL_NAME = "trackMtl";
+        const string GROUP_NAME = "track";
+        const string TEXTURE_FILE = "track.jpg";
         float xOffset;
         float zOffset;
 

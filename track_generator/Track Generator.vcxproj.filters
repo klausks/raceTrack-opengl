@@ -48,9 +48,6 @@
     <ClCompile Include="ObjWriter.cpp">
       <Filter>Source Files\file_writers</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\models</Filter>
-    </ClCompile>
     <ClCompile Include="Bspline.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
@@ -64,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="SceneWriter.h">
       <Filter>Header Files\file_writers</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\models</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files\models</Filter>

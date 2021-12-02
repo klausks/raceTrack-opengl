@@ -13,8 +13,8 @@ void Obj3D::initialize()
 	rotation = glm::mat4(1);
 	translation = glm::mat4(1);
 	pos = glm::vec3(0.0f, 0.0f, 0.0f);
-	// scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	angle = 0.0f;
+
 	setBoundingSphere();
 	passMeshDataToBuffers();
 }
@@ -49,17 +49,20 @@ float Obj3D::getDist(glm::vec3 p0, glm::vec3 p1)
 void Obj3D::passMeshDataToBuffers()
 {
 	int groups = this->mesh->getNumOfGroups();
-	for (int i = 0; i < groups; i++) {
+	for (int i = 0; i < groups; i++)
+	{
 		int verticesCount = 0;
 		vector<float> vertices;
 		vector<float> textureCoords;
 		vector<float> normals;
 		MeshGroup* group = this->mesh->getGroupAt(i);
 		int numOfFaces = group->getNumOfFaces();
-		for (int j = 0; j < numOfFaces; j++) {
+		for (int j = 0; j < numOfFaces; j++)
+		{
 			Face* face = group->getFaceAt(j);
 			int numOfVertices = face->getNumOfVertices();
-			for (int k = 0; k < numOfVertices; k++) {
+			for (int k = 0; k < numOfVertices; k++)
+			{
 				glm::vec3 vertex = mesh->vertices[face->vertexIndices[k]];
 				vertices.push_back(vertex.x);
 				vertices.push_back(vertex.y);
@@ -67,13 +70,15 @@ void Obj3D::passMeshDataToBuffers()
 				verticesCount++;
 			}
 			int numOfTexCoords = face->getNumOfTextureCoords();
-			for (int k = 0; k < numOfTexCoords; k++) {
+			for (int k = 0; k < numOfTexCoords; k++)
+			{
 				glm::vec2 textureCoord = mesh->textureCoords[face->textureIndices[k]];
 				textureCoords.push_back(textureCoord.x);
 				textureCoords.push_back(textureCoord.y);
 			}
 			int numOfNormals = face->getNumOfNormals();
-			for (int k = 0; k < numOfNormals; k++) {
+			for (int k = 0; k < numOfNormals; k++)
+			{
 				glm::vec3 normal = mesh->normals[face->normalIndices[k]];
 				normals.push_back(normal.x);
 				normals.push_back(normal.y);
@@ -112,24 +117,6 @@ void Obj3D::passMeshDataToBuffers()
 	}
 }
 
-/*
-void Obj3D::setRotation(float angle, glm::vec3 axis)
-{
-	transform = glm::rotate(transform, angle, axis);
-}
-
-void Obj3D::setTranslation(glm::vec3 displacements)
-{
-	transform = glm::translate(transform, displacements);
-}
-
-void Obj3D::setScale(glm::vec3 scaleFactors)
-{
-	scale = scaleFactors;
-	transform = glm::scale(transform, scale);
-}
-*/
-
 void Obj3D::setRotation(float angle, glm::vec3 axis)
 {
 	rotation = glm::rotate(rotation, angle, axis);
@@ -149,7 +136,9 @@ void Obj3D::draw()
 {
 	GLint transformLoc = glGetUniformLocation(this->shader->program, "model");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-	for (MeshGroup* group : this->mesh->groups) {
+
+	for (MeshGroup* group : this->mesh->groups)
+	{
 		group->bindTexture();
 		glUniform1i(glGetUniformLocation(shader->program, "texture1"), 0);
 		glBindVertexArray(group->vao);

@@ -18,7 +18,7 @@ public:
 
 public:
 	Shader() { textureQtd = 0; }
-	~Shader();
+	~Shader() {};
 
 	Shader(const GLchar* vertexPath, const GLchar* fragmentPath) : Shader() {
 
@@ -114,7 +114,6 @@ public:
 		// Delete shaders (already linked, they're no longer necessary)
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
-
 	}
 
 	void Use()

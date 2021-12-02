@@ -13,7 +13,6 @@ void MeshGroup::bindTexture()
     if (this->texture != NULL)
     {
         GLuint textureId = this->texture->GetTextureId();
-        //glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);
     }
 }

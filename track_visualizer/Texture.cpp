@@ -26,7 +26,6 @@ Texture::Texture(const char* path, const char* textureUniformName, GLuint shader
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-
 	glUniform1i(textureLocation, this->textureNum);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
